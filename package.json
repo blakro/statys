@@ -15,8 +15,10 @@
     "concurrently": "^10.0.3",
     "next": "14.2.35",
     "papaparse": "^5.5.4",
+    "plotly.js-dist-min": "^3.7.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-plotly.js": "^4.0.0",
     "xlsx": "^0.18.5",
     "zustand": "^5.0.14"
   },
@@ -25,6 +27,7 @@
     "@types/papaparse": "^5.5.2",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-plotly.js": "^2.6.4",
     "eslint": "^8",
     "eslint-config-next": "14.2.35",
     "postcss": "^8",

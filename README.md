@@ -50,8 +50,12 @@ http://localhost:8000/api/py/docs.
 ## Tests
 
 ```bash
-npm test        # tests unitaires (détection de types, parsing FR, qualité)
+npm test        # tests unitaires front (détection de types, parsing FR, qualité)
 npm run lint    # ESLint
+
+# tests du moteur statistique Python (cas connus, sélection des tests)
+pip install -r requirements-dev.txt
+cd api && python -m pytest test_stats.py -q
 ```
 
 ## Déploiement Vercel
@@ -85,7 +89,12 @@ L'import gère automatiquement (avec correction manuelle possible) :
 
 1. ✅ **Phase 1** — Socle Next.js + FastAPI, auth basique, onglet Données
    (import, aperçu paginé, conversion de types, qualité des données).
-2. ⬜ **Phase 2** — Analyse univariée (graphiques, tests de normalité, tableaux).
+2. ✅ **Phase 2** — Analyse univariée : histogramme (classes ajustables),
+   boxplot, QQ-plot, nuage valeur/index (jitter), test de normalité à
+   sélection automatique (Shapiro-Wilk si n < 5000, sinon D'Agostino-Pearson),
+   tableau complet (tendance centrale / dispersion / position), et pour les
+   qualitatives : camembert (< 4 modalités) ou barres triées (≥ 4), tableau de
+   fréquences avec cumulées et manquantes en catégorie à part.
 3. ⬜ **Phase 3** — Analyse bivariée (arbre de décision statistique implémenté).
 4. ⬜ **Phase 4** — Rapport PDF premium (WeasyPrint).
 5. ⬜ **Phase 5** — Couche SaaS multi-tenant via Clerk (organisations, rôles).

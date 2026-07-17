@@ -13,6 +13,7 @@ import {
   ImportOptions,
 } from "./dataset";
 import { parseFile, ParseError } from "./parse";
+import { clearApiCache } from "./api";
 
 interface SessionState {
   dataset: Dataset | null;
@@ -37,6 +38,7 @@ export const useSession = create<SessionState>((set, get) => ({
 
   importFile: async (file: File) => {
     set({ isParsing: true, importError: null });
+    clearApiCache();
     try {
       const buffer = await file.arrayBuffer();
       const options = { ...DEFAULT_IMPORT_OPTIONS };
@@ -58,6 +60,7 @@ export const useSession = create<SessionState>((set, get) => ({
     if (!dataset || !fileBuffer) return;
     const options = { ...importOptions, ...partial };
     set({ isParsing: true, importError: null });
+    clearApiCache();
     try {
       const reparsed = parseFile(dataset.fileName, fileBuffer, options);
       set({ dataset: reparsed, importOptions: options, isParsing: false });
@@ -80,12 +83,14 @@ export const useSession = create<SessionState>((set, get) => ({
     set({ dataset: { ...dataset, columns } });
   },
 
-  reset: () =>
+  reset: () => {
+    clearApiCache();
     set({
       dataset: null,
       fileBuffer: null,
       importOptions: DEFAULT_IMPORT_OPTIONS,
       importError: null,
       isParsing: false,
-    }),
+    });
+  },
 }));
