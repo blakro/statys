@@ -58,8 +58,6 @@ l'identité de l'exportateur figure en annexe du PDF.
 Prérequis : Node.js ≥ 18, Python ≥ 3.9.
 
 ```bash
-cd web
-
 # 1. Dépendances frontend
 npm install
 
@@ -92,9 +90,9 @@ cd api && python -m pytest test_stats.py -q
 
 ## Déploiement Vercel
 
-Créer un projet Vercel pointant sur ce repo avec **Root Directory = `web`**.
-Vercel détecte Next.js et construit automatiquement `api/index.py` en fonction
-serverless Python (`requirements.txt` à la racine de `web/`). Définir les
+Créer un projet Vercel pointant sur ce repo (racine du projet = racine du
+repo). Vercel détecte Next.js et construit automatiquement `api/index.py` en fonction
+serverless Python (`requirements.txt` à la racine). Définir les
 variables d'environnement `AUTH_SECRET`, `DEMO_EMAIL`, `DEMO_PASSWORD` dans le
 dashboard Vercel.
 
