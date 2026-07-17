@@ -12,23 +12,49 @@ body {
   background: var(--background);
 }
 
+::selection {
+  background: #bfcfe8;
+  color: #0f1c2e;
+}
+
+/* Focus clavier homogène sur toute la plateforme. */
+:focus-visible {
+  outline: 2px solid #416cae;
+  outline-offset: 2px;
+}
+
+/* Respect des préférences de mouvement réduites (accessibilité). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @layer components {
   .card {
     @apply rounded-xl border border-slate-200 bg-white shadow-sm;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-navy-700 active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-navy-500;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 disabled:cursor-not-allowed disabled:opacity-40;
   }
   .input {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-navy-500 focus:outline-none focus:ring-1 focus:ring-navy-500;
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition focus:border-navy-500 focus:outline-none focus:ring-1 focus:ring-navy-500;
   }
   .select {
-    @apply rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-700 focus:border-navy-500 focus:outline-none focus:ring-1 focus:ring-navy-500;
+    @apply rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-700 transition focus:border-navy-500 focus:outline-none focus:ring-1 focus:ring-navy-500;
   }
   .badge {
     @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium;
+  }
+  /* Lien d'évitement : visible uniquement au focus clavier. */
+  .skip-link {
+    @apply absolute left-2 top-2 z-50 -translate-y-16 rounded-lg bg-navy-800 px-4 py-2 text-sm font-medium text-white transition focus:translate-y-0;
   }
 }

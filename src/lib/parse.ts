@@ -8,7 +8,6 @@
  */
 
 import Papa from "papaparse";
-import * as XLSX from "xlsx";
 import {
   ColumnMeta,
   Dataset,
@@ -113,10 +112,17 @@ function parseCsv(buffer: ArrayBuffer, options: ImportOptions): Dataset["resolve
   };
 }
 
-function parseExcel(buffer: ArrayBuffer, options: ImportOptions): Dataset["resolvedOptions"] & {
-  headers: string[];
-  rows: RawCell[][];
-} {
+async function parseExcel(
+  buffer: ArrayBuffer,
+  options: ImportOptions
+): Promise<
+  Dataset["resolvedOptions"] & {
+    headers: string[];
+    rows: RawCell[][];
+  }
+> {
+  // Chargée à la demande : SheetJS (~400 Ko) ne pèse pas sur le bundle initial.
+  const XLSX = await import("xlsx");
   const workbook = XLSX.read(buffer, { type: "array", cellDates: true });
   const sheetNames = workbook.SheetNames;
   if (sheetNames.length === 0) throw new ParseError("Le classeur Excel ne contient aucune feuille.");
@@ -153,11 +159,11 @@ function parseExcel(buffer: ArrayBuffer, options: ImportOptions): Dataset["resol
  * l'appelant pour permettre un re-parsing avec d'autres options (délimiteur,
  * encodage, feuille) sans re-sélectionner le fichier.
  */
-export function parseFile(
+export async function parseFile(
   fileName: string,
   buffer: ArrayBuffer,
   options: ImportOptions
-): Dataset {
+): Promise<Dataset> {
   const format = detectSourceFormat(fileName);
   if (!format) {
     throw new ParseError(
@@ -165,7 +171,7 @@ export function parseFile(
     );
   }
 
-  const parsed = format === "csv" ? parseCsv(buffer, options) : parseExcel(buffer, options);
+  const parsed = format === "csv" ? parseCsv(buffer, options) : await parseExcel(buffer, options);
   const { headers, rows, ...resolvedOptions } = parsed;
 
   // Aligne chaque ligne sur le nombre de colonnes de l'en-tête.

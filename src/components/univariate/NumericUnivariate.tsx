@@ -12,6 +12,7 @@ import {
 } from "@/lib/api";
 import { downsample, ReportFigure } from "@/lib/report";
 import { PlotlyChart } from "@/components/PlotlyChart";
+import { AnalysisSkeleton } from "@/components/Skeleton";
 
 const numberFr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 4 });
 
@@ -210,11 +211,7 @@ export function NumericUnivariate({ dataset, columnName }: { dataset: Dataset; c
   }
 
   if (!result) {
-    return (
-      <p className="text-sm text-slate-500" aria-live="polite">
-        Calcul en cours sur le moteur statistique…
-      </p>
-    );
+    return <AnalysisSkeleton />;
   }
 
   const { stats, normality, qq } = result;
@@ -254,7 +251,7 @@ export function NumericUnivariate({ dataset, columnName }: { dataset: Dataset; c
           )}
         </div>
         <p className="mt-2 text-sm text-slate-700">{result.interpretation}</p>
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="mt-1 text-xs text-slate-500">
           {numberFr.format(stats.n)} valeurs analysées
           {result.excluded > 0 &&
             ` — ${numberFr.format(result.excluded)} manquantes ou non numériques exclues`}
@@ -336,7 +333,7 @@ export function NumericUnivariate({ dataset, columnName }: { dataset: Dataset; c
               }}
             />
           ) : (
-            <p className="text-sm text-slate-400">Échantillon trop petit pour un QQ-plot.</p>
+            <p className="text-sm text-slate-500">Échantillon trop petit pour un QQ-plot.</p>
           )}
         </ChartCard>
 

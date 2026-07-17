@@ -2,6 +2,8 @@
 
 /** Helpers partagés par les vues bivariées. */
 
+import { AnalysisSkeleton } from "@/components/Skeleton";
+
 export const numberFr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 4 });
 
 export function fmt(v: number | null | undefined): string {
@@ -29,7 +31,7 @@ export function SignificanceBadge({ pvalue, alpha = 0.05 }: { pvalue: number; al
 export function InterpretationCard({ text }: { text: string }) {
   return (
     <div className="card border-l-4 border-l-navy-600 p-4">
-      <div className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      <div className="text-xs font-medium uppercase tracking-wide text-slate-500">
         Interprétation
       </div>
       <p className="mt-1 text-sm text-slate-700">{text}</p>
@@ -38,11 +40,7 @@ export function InterpretationCard({ text }: { text: string }) {
 }
 
 export function LoadingNotice() {
-  return (
-    <p className="text-sm text-slate-500" aria-live="polite">
-      Calcul en cours sur le moteur statistique…
-    </p>
-  );
+  return <AnalysisSkeleton />;
 }
 
 export function ErrorNotice({ message }: { message: string }) {

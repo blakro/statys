@@ -28,7 +28,7 @@ interface SessionState {
   reportEntries: ReportEntry[];
 
   importFile: (file: File) => Promise<void>;
-  updateOptions: (options: Partial<ImportOptions>) => void;
+  updateOptions: (options: Partial<ImportOptions>) => Promise<void>;
   setColumnType: (columnIndex: number, type: ColumnType) => void;
   addReportEntry: (entry: ReportEntry) => void;
   removeReportEntry: (id: string) => void;
@@ -49,7 +49,7 @@ export const useSession = create<SessionState>((set, get) => ({
     try {
       const buffer = await file.arrayBuffer();
       const options = { ...DEFAULT_IMPORT_OPTIONS };
-      const dataset = parseFile(file.name, buffer, options);
+      const dataset = await parseFile(file.name, buffer, options);
       set({
         dataset,
         fileBuffer: buffer,
@@ -68,14 +68,14 @@ export const useSession = create<SessionState>((set, get) => ({
     }
   },
 
-  updateOptions: (partial: Partial<ImportOptions>) => {
+  updateOptions: async (partial: Partial<ImportOptions>) => {
     const { dataset, fileBuffer, importOptions } = get();
     if (!dataset || !fileBuffer) return;
     const options = { ...importOptions, ...partial };
     set({ isParsing: true, importError: null });
     clearApiCache();
     try {
-      const reparsed = parseFile(dataset.fileName, fileBuffer, options);
+      const reparsed = await parseFile(dataset.fileName, fileBuffer, options);
       set({ dataset: reparsed, importOptions: options, isParsing: false });
     } catch (e) {
       set({

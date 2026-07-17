@@ -21,7 +21,7 @@ export function ApiStatus() {
   }, []);
 
   return (
-    <p className="text-xs text-slate-400" aria-live="polite">
+    <p className="text-xs text-slate-500" aria-live="polite">
       Moteur statistique :{" "}
       {health ? (
         <span className="text-emerald-600">

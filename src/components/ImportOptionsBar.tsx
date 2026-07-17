@@ -18,7 +18,7 @@ export function ImportOptionsBar() {
   return (
     <div className="card flex flex-wrap items-end gap-x-6 gap-y-3 px-4 py-3">
       <div className="min-w-0">
-        <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Fichier</div>
+        <div className="text-xs font-medium uppercase tracking-wide text-slate-500">Fichier</div>
         <div className="truncate text-sm font-medium text-navy-950" title={dataset.fileName}>
           {dataset.fileName}
         </div>
@@ -26,7 +26,7 @@ export function ImportOptionsBar() {
 
       {isCsv && (
         <label className="block">
-          <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
             Délimiteur{" "}
             {importOptions.delimiter === "auto" && resolvedOptions.delimiter
               ? `(détecté : « ${resolvedOptions.delimiter === "\t" ? "tab" : resolvedOptions.delimiter} »)`
@@ -48,7 +48,7 @@ export function ImportOptionsBar() {
 
       {isCsv && (
         <label className="block">
-          <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
             Encodage{" "}
             {importOptions.encoding === "auto" && resolvedOptions.encoding
               ? `(détecté : ${resolvedOptions.encoding})`
@@ -67,7 +67,7 @@ export function ImportOptionsBar() {
       )}
 
       <label className="block">
-        <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+        <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
           Séparateur décimal
         </span>
         <select
@@ -85,7 +85,7 @@ export function ImportOptionsBar() {
 
       {!isCsv && resolvedOptions.sheetNames.length > 1 && (
         <label className="block">
-          <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
             Feuille
           </span>
           <select

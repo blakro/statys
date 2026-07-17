@@ -66,7 +66,7 @@ export function ColumnSchemaTable() {
                       </select>
                       {overridden && (
                         <span
-                          className="text-xs text-slate-400"
+                          className="text-xs text-slate-500"
                           title={`Type détecté : ${COLUMN_TYPE_LABELS[col.detectedType]}`}
                         >
                           modifié
@@ -78,7 +78,7 @@ export function ColumnSchemaTable() {
                     {q.missing > 0 ? (
                       <span className={q.missingPct > 20 ? "font-medium text-red-600" : ""}>
                         {numberFr.format(q.missing)}{" "}
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-slate-500">
                           ({q.missingPct.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} %)
                         </span>
                       </span>

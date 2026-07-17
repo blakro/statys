@@ -158,4 +158,10 @@ L'import gère automatiquement (avec correction manuelle possible) :
    démo » automatique sans clés ; le middleware protège aussi l'API
    statistique (/api/py → 401 sans session) ; audit des exports enrichi
    (utilisateur + organisation).
-6. ⬜ **Phase 6** — Polish UI/UX (branding, responsive, accessibilité).
+6. ✅ **Phase 6** — Polish UI/UX : icône de marque, pages d'erreur et 404
+   françaises, lien d'évitement clavier, focus visible homogène, respect de
+   `prefers-reduced-motion`, contrastes relevés (WCAG AA), squelettes de
+   chargement annoncés aux lecteurs d'écran, indicateurs de navigation
+   (données chargées, compteur de sections du rapport), bandeau « étape
+   suivante » après import, spinner de lecture, chargement paresseux de la
+   librairie Excel (bundle initial allégé).

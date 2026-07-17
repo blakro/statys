@@ -235,7 +235,7 @@ export function CategoricalNumeric({
           <div className="border-b border-slate-200 px-4 py-3">
             <h3 className="text-sm font-semibold text-navy-950">
               1. Normalité par groupe (Shapiro-Wilk{" "}
-              <span className="font-normal text-slate-400">/ D&apos;Agostino si n ≥ 5000</span>)
+              <span className="font-normal text-slate-500">/ D&apos;Agostino si n ≥ 5000</span>)
             </h3>
           </div>
           <div className="max-h-64 overflow-auto">

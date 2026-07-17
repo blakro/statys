@@ -212,7 +212,7 @@ export default function RapportPage() {
                   </label>
                   <button
                     onClick={() => removeReportEntry(entry.id)}
-                    className="text-xs text-slate-400 hover:text-red-600"
+                    className="text-xs text-slate-500 hover:text-red-600"
                     aria-label={`Retirer ${entry.title}`}
                   >
                     Retirer
@@ -299,7 +299,7 @@ export default function RapportPage() {
                   ? "Assemblage du PDF…"
                   : `Générer le rapport PDF (${effectiveSelection.size} section${effectiveSelection.size > 1 ? "s" : ""})`}
             </button>
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="mt-2 text-xs text-slate-500">
               La génération est asynchrone : vous pouvez continuer à naviguer, le téléchargement
               démarrera tout seul. Structure : page de garde, sommaire, résumé exécutif, une
               section par analyse, méthodologie, annexes.

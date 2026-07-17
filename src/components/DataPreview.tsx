@@ -74,7 +74,7 @@ export function DataPreview() {
         <table className="w-full whitespace-nowrap text-sm">
           <thead className="sticky top-0 bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
             <tr>
-              <th scope="col" className="px-3 py-2 font-medium text-slate-400">#</th>
+              <th scope="col" className="px-3 py-2 font-medium text-slate-500">#</th>
               {dataset.columns.map((col) => (
                 <th key={col.name} scope="col" className="px-3 py-2 font-medium">
                   {col.name}
@@ -85,7 +85,7 @@ export function DataPreview() {
           <tbody className="divide-y divide-slate-100">
             {pageRows.map((row, r) => (
               <tr key={start + r} className="hover:bg-slate-50">
-                <td className="px-3 py-1.5 tabular-nums text-slate-400">{start + r + 1}</td>
+                <td className="px-3 py-1.5 tabular-nums text-slate-500">{start + r + 1}</td>
                 {row.map((cell, c) => (
                   <td
                     key={c}
