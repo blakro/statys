@@ -98,6 +98,136 @@ export async function fetchUnivariateNumeric(
   );
 }
 
+// ---------------------------------------------------------------------------
+// Analyse bivariée
+// ---------------------------------------------------------------------------
+
+export interface CorrelationEntry {
+  r: number;
+  pvalue: number;
+  ci95: [number, number] | null;
+}
+
+export interface NumericNumericResult {
+  n: number;
+  excluded: number;
+  pearson: CorrelationEntry;
+  spearman: CorrelationEntry;
+  kendall: CorrelationEntry;
+  regression: { slope: number; intercept: number; r_squared: number };
+  interpretation: string;
+}
+
+export interface GroupStat {
+  label: string;
+  n: number;
+  mean: number;
+  median: number;
+  std: number;
+  ci95: [number, number];
+}
+
+export interface CategoricalNumericResult {
+  groups: GroupStat[];
+  dropped_groups: string[];
+  assumptions: {
+    normality: Record<
+      string,
+      { test: string | null; statistic: number | null; pvalue: number | null; normal: boolean }
+    >;
+    all_normal: boolean;
+    homogeneity: {
+      levene: { statistic: number; pvalue: number; homogeneous: boolean };
+      bartlett: { statistic: number; pvalue: number; homogeneous: boolean } | null;
+    };
+    homogeneous: boolean;
+  };
+  decision: { n_groups: number; path: string[] };
+  test: {
+    name: string;
+    statistic: number;
+    pvalue: number;
+    df: number | string | null;
+  };
+  effect_size: { name: string; value: number; magnitude: string };
+  ks: { statistic: number; pvalue: number; different: boolean } | null;
+  interpretation: string;
+}
+
+export interface CategoricalCategoricalResult {
+  test: {
+    name: string;
+    reason: string | null;
+    statistic: number;
+    statistic_label: string;
+    pvalue: number;
+    df: number | null;
+    warning?: string | null;
+  };
+  expected: number[][];
+  min_expected: number;
+  cramer_v: number;
+  cramer_v_magnitude: string;
+  residuals: number[][];
+  interpretation: string;
+}
+
+export interface CorrelationMatrixResult {
+  variables: string[];
+  method: string;
+  matrix: number[][];
+  pvalues: number[][];
+}
+
+export async function fetchNumericNumeric(
+  x: (number | null)[],
+  y: (number | null)[],
+  cacheKey: string
+): Promise<NumericNumericResult> {
+  return postJson<NumericNumericResult>(
+    "/api/py/bivariate/numeric-numeric",
+    { x: x.slice(0, MAX_API_VALUES), y: y.slice(0, MAX_API_VALUES) },
+    `nn:${cacheKey}`
+  );
+}
+
+export async function fetchCategoricalNumeric(
+  groups: Record<string, (number | null)[]>,
+  includeKs: boolean,
+  cacheKey: string
+): Promise<CategoricalNumericResult> {
+  return postJson<CategoricalNumericResult>(
+    "/api/py/bivariate/categorical-numeric",
+    { groups, include_ks: includeKs },
+    `cn:${cacheKey}:${includeKs}`
+  );
+}
+
+export async function fetchCategoricalCategorical(
+  observed: number[][],
+  rowLabels: string[],
+  colLabels: string[],
+  cacheKey: string
+): Promise<CategoricalCategoricalResult> {
+  return postJson<CategoricalCategoricalResult>(
+    "/api/py/bivariate/categorical-categorical",
+    { observed, row_labels: rowLabels, col_labels: colLabels },
+    `cc:${cacheKey}`
+  );
+}
+
+export async function fetchCorrelationMatrix(
+  columns: Record<string, (number | null)[]>,
+  method: string,
+  cacheKey: string
+): Promise<CorrelationMatrixResult> {
+  return postJson<CorrelationMatrixResult>(
+    "/api/py/bivariate/correlation-matrix",
+    { columns, method },
+    `cm:${cacheKey}:${method}`
+  );
+}
+
 /** Vide le cache (à appeler quand un nouveau fichier est importé). */
 export function clearApiCache() {
   cache.clear();

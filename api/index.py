@@ -20,8 +20,20 @@ from pydantic import BaseModel, Field
 
 try:
     # Exécution en package (uvicorn api.index:app depuis web/).
+    from api._bivariate import (
+        categorical_categorical,
+        categorical_numeric,
+        correlation_matrix,
+        correlations,
+    )
     from api._stats import univariate_numeric
 except ImportError:  # Exécution comme module isolé (fonction serverless Vercel).
+    from _bivariate import (
+        categorical_categorical,
+        categorical_numeric,
+        correlation_matrix,
+        correlations,
+    )
     from _stats import univariate_numeric
 
 app = FastAPI(
@@ -57,5 +69,81 @@ def api_univariate_numeric(payload: NumericColumn) -> dict:
     """
     try:
         return univariate_numeric(payload.values)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
+
+class NumericPair(BaseModel):
+    """Deux colonnes quantitatives alignées ligne à ligne (null = manquant)."""
+
+    x: list[float | None] = Field(..., max_length=300_000)
+    y: list[float | None] = Field(..., max_length=300_000)
+
+
+@app.post("/api/py/bivariate/numeric-numeric")
+def api_bivariate_numeric_numeric(payload: NumericPair) -> dict:
+    """Corrélations Pearson / Spearman / Kendall (p-value + IC 95 %) et régression."""
+    try:
+        return correlations(payload.x, payload.y)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
+
+class CorrelationMatrixInput(BaseModel):
+    """Colonnes quantitatives (2 à 20) pour la matrice de corrélation."""
+
+    columns: dict[str, list[float | None]]
+    method: str = "pearson"
+
+
+@app.post("/api/py/bivariate/correlation-matrix")
+def api_correlation_matrix(payload: CorrelationMatrixInput) -> dict:
+    if len(payload.columns) > 20:
+        raise HTTPException(status_code=422, detail="20 variables maximum dans la matrice")
+    if sum(len(v) for v in payload.columns.values()) > 2_000_000:
+        raise HTTPException(status_code=422, detail="volume de données trop important")
+    try:
+        return correlation_matrix(payload.columns, payload.method)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
+
+class GroupedValues(BaseModel):
+    """Valeurs quantitatives regroupées par modalité de la variable qualitative."""
+
+    groups: dict[str, list[float | None]]
+    include_ks: bool = False
+
+
+@app.post("/api/py/bivariate/categorical-numeric")
+def api_bivariate_categorical_numeric(payload: GroupedValues) -> dict:
+    """
+    Comparaison quantitative × qualitative avec sélection automatique du test
+    (Student / Welch / Mann-Whitney / ANOVA / ANOVA de Welch / Kruskal-Wallis)
+    et taille d'effet systématique.
+    """
+    if sum(len(v) for v in payload.groups.values()) > 300_000:
+        raise HTTPException(status_code=422, detail="volume de données trop important")
+    try:
+        return categorical_numeric(payload.groups, payload.include_ks)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
+
+class ContingencyInput(BaseModel):
+    """Tableau de contingence agrégé côté navigateur (aucune donnée individuelle)."""
+
+    observed: list[list[int]]
+    row_labels: list[str]
+    col_labels: list[str]
+
+
+@app.post("/api/py/bivariate/categorical-categorical")
+def api_bivariate_categorical_categorical(payload: ContingencyInput) -> dict:
+    """Khi-deux d'indépendance (ou Fisher exact si 2×2 avec attendu < 5), V de Cramér, résidus."""
+    if len(payload.observed) > 100 or any(len(r) > 100 for r in payload.observed):
+        raise HTTPException(status_code=422, detail="tableau de contingence trop grand")
+    try:
+        return categorical_categorical(payload.observed, payload.row_labels, payload.col_labels)
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
