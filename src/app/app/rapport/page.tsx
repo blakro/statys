@@ -6,6 +6,8 @@ import { useSession } from "@/lib/store";
 import { figureToPng, REPORT_KIND_LABELS, ReportEntry } from "@/lib/report";
 import { ApiError, fetchReportPdf, ReportPayload } from "@/lib/api";
 import { COLUMN_TYPE_LABELS } from "@/lib/dataset";
+import { canExportPdf } from "@/lib/roles";
+import { useIdentity } from "@/components/RoleProvider";
 
 const numberFr = new Intl.NumberFormat("fr-FR");
 
@@ -21,6 +23,8 @@ type Phase =
 
 export default function RapportPage() {
   const { dataset, reportEntries, removeReportEntry, importOptions } = useSession();
+  const identity = useIdentity();
+  const exportAllowed = canExportPdf(identity.role);
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const [touched, setTouched] = useState(false);
 
@@ -117,7 +121,7 @@ export default function RapportPage() {
     const d = dataset!;
     return {
       branding: {
-        bank_name: bankName.trim(),
+        bank_name: bankName.trim() || identity.orgName,
         report_title: reportTitle.trim() || "Analyse statistique",
         author: author.trim(),
         accent_color: accentColor,
@@ -135,6 +139,8 @@ export default function RapportPage() {
           .filter(Boolean)
           .join(", "),
         exec_note: execNote.trim(),
+        exported_by: identity.userLabel,
+        organization: identity.orgName,
       },
       sections,
     };
@@ -229,7 +235,7 @@ export default function RapportPage() {
                 className="input"
                 value={bankName}
                 onChange={(e) => setBankName(e.target.value)}
-                placeholder="Banque de Démonstration"
+                placeholder={identity.orgName || "Banque de Démonstration"}
               />
             </label>
             <label className="block">
@@ -276,9 +282,15 @@ export default function RapportPage() {
           </div>
 
           <div className="card p-5">
+            {!exportAllowed && (
+              <p className="mb-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
+                Votre rôle « Lecteur seul » ne permet pas d&apos;exporter de rapport. Demandez à
+                un administrateur de votre banque de vous passer « Analyste ».
+              </p>
+            )}
             <button
               onClick={generate}
-              disabled={busy || effectiveSelection.size === 0}
+              disabled={busy || effectiveSelection.size === 0 || !exportAllowed}
               className="btn-primary w-full"
             >
               {phase.step === "charts"

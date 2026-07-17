@@ -270,6 +270,7 @@ TEMPLATE = """<!DOCTYPE html>
       {% if context.import_options %}<tr><td>Options d'import</td><td class="num">{{ context.import_options }}</td></tr>{% endif %}
       <tr><td>Moteur statistique</td><td class="num">Python {{ versions.python }} — scipy {{ versions.scipy }}</td></tr>
       <tr><td>Généré le</td><td class="num">{{ generated_date }}</td></tr>
+      {% if context.exported_by %}<tr><td>Exporté par</td><td class="num">{{ context.exported_by }}{% if context.organization %} ({{ context.organization }}){% endif %}</td></tr>{% endif %}
     </tbody>
   </table>
   <p class="muted">Reproductibilité : les résultats dépendent uniquement du fichier source et des
@@ -362,6 +363,8 @@ def render_pdf(payload: dict) -> bytes:
                 "at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                 "sections": len(payload.get("sections") or []),
                 "file_name": (payload.get("context") or {}).get("file_name"),
+                "exported_by": (payload.get("context") or {}).get("exported_by"),
+                "organization": (payload.get("context") or {}).get("organization"),
                 "bytes": len(pdf),
             },
             ensure_ascii=False,

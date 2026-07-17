@@ -185,6 +185,9 @@ class ReportContext(BaseModel):
     column_count: int = 0
     import_options: str = ""
     exec_note: str = ""
+    # Identité de l'exportateur (journal d'audit — jamais les données).
+    exported_by: str = ""
+    organization: str = ""
 
 
 class ReportInput(BaseModel):

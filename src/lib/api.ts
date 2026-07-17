@@ -245,6 +245,9 @@ export interface ReportPayload {
     column_count: number;
     import_options: string;
     exec_note: string;
+    /** Identité de l'exportateur (journal d'audit — jamais les données). */
+    exported_by: string;
+    organization: string;
   };
   sections: {
     kind: string;

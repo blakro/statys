@@ -12,6 +12,8 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@clerk/localizations": "^3.37.8",
+    "@clerk/nextjs": "^5.7.6",
     "concurrently": "^10.0.3",
     "next": "14.2.35",
     "papaparse": "^5.5.4",

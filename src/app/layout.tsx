@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ClerkProvider } from "@clerk/nextjs";
+import { frFR } from "@clerk/localizations";
+import { clerkEnabled } from "@/lib/roles";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -19,16 +22,34 @@ export const metadata: Metadata = {
     "Plateforme SaaS d'analyse statistique pour banques : import de données, analyses univariées et bivariées, rapports PDF.",
 };
 
+/** Thème Clerk aligné sur la charte navy de la plateforme. */
+const clerkAppearance = {
+  variables: {
+    colorPrimary: "#294477",
+    colorText: "#0f1c2e",
+    borderRadius: "0.5rem",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const body = (
+    <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      {children}
+    </body>
+  );
   return (
     <html lang="fr">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
-        {children}
-      </body>
+      {clerkEnabled ? (
+        <ClerkProvider localization={frFR} appearance={clerkAppearance}>
+          {body}
+        </ClerkProvider>
+      ) : (
+        body
+      )}
     </html>
   );
 }

@@ -18,8 +18,40 @@ Un seul projet Vercel, un seul repo :
   En dev, uvicorn sert l'API sur le port 8000 et Next.js proxifie `/api/py/*`
   vers elle (voir `next.config.mjs`) ; en production Vercel exécute
   `api/index.py` comme fonction serverless.
-- **Aucune base de données** : les comptes seront gérés par Clerk (Phase 5),
-  les données analysées ne sont jamais stockées.
+- **Aucune base de données** : les comptes, organisations et rôles sont gérés
+  par Clerk ; les données analysées ne sont jamais stockées.
+
+## Multi-tenant (Clerk)
+
+Une **organisation Clerk = une banque**. La plateforme fonctionne dans deux
+modes, détectés automatiquement :
+
+- **Clerk configuré** (`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` +
+  `CLERK_SECRET_KEY`) : connexion via `/sign-in`, sélecteur d'organisation
+  dans le header (gestion des membres et **invitations** intégrée), rôles.
+- **Mode démo** (clés absentes) : compte unique `DEMO_EMAIL`/`DEMO_PASSWORD`
+  de la Phase 1, badge « Mode démo » affiché — pratique en local et en CI.
+
+Mise en place côté dashboard Clerk :
+
+1. créer l'application, activer **Organizations** ;
+2. (optionnel) créer le rôle personnalisé **`org:lecteur`** — clé exacte —
+   pour le profil « lecteur seul » ;
+3. renseigner les variables d'environnement (voir `.env.example`).
+
+Correspondance des rôles :
+
+| Rôle Clerk    | Rôle Statys          | Capacités |
+|---------------|----------------------|-----------|
+| `org:admin`   | Administrateur banque | tout + gestion des membres/invitations (via le sélecteur d'organisation) |
+| `org:member`  | Analyste             | import, analyses, export PDF |
+| `org:lecteur` | Lecteur seul         | import et analyses, **pas d'export PDF** |
+
+Journal d'audit : les connexions sont tracées nativement par Clerk
+(dashboard → Users/Sessions) ; chaque export PDF émet un événement
+`pdf_export` (horodatage, utilisateur, organisation, fichier, volumétrie —
+jamais les données) visible dans les logs Vercel de la fonction Python, et
+l'identité de l'exportateur figure en annexe du PDF.
 
 ## Lancement en local
 
@@ -120,5 +152,10 @@ L'import gère automatiquement (avec correction manuelle possible) :
    aux tests réellement utilisés, annexes de reproductibilité. Génération
    asynchrone avec progression ; les analyses des onglets 2 et 3 sont
    journalisées automatiquement et sélectionnables dans l'onglet 4.
-5. ⬜ **Phase 5** — Couche SaaS multi-tenant via Clerk (organisations, rôles).
+5. ✅ **Phase 5** — Couche SaaS multi-tenant via Clerk : organisations =
+   banques, rôles admin/analyste/lecteur, invitations via le sélecteur
+   d'organisation, localisation française, thème aligné ; repli « mode
+   démo » automatique sans clés ; le middleware protège aussi l'API
+   statistique (/api/py → 401 sans session) ; audit des exports enrichi
+   (utilisateur + organisation).
 6. ⬜ **Phase 6** — Polish UI/UX (branding, responsive, accessibilité).
