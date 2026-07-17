@@ -8,7 +8,13 @@ import base64
 
 import pytest
 
-from _report import MAX_TABLE_ROWS, _safe_color, build_report_html, render_pdf
+from _report import (
+    MAX_TABLE_ROWS,
+    _safe_color,
+    build_report_html,
+    format_currency,
+    render_pdf,
+)
 
 # PNG 1×1 transparent, valide.
 TINY_PNG = "data:image/png;base64," + base64.b64encode(
@@ -108,8 +114,65 @@ class TestBuildHtml:
         assert f"tronqué à {MAX_TABLE_ROWS} lignes" in html
 
 
+class TestFormatCurrency:
+    # Séparateur de milliers = espace insécable fine (U+202F).
+    NB = "\u202f"
+
+    def test_fcfa_sans_decimales_espace_milliers(self):
+        # Espace insécable comme séparateur de milliers, sans décimales, suffixe FCFA.
+        assert format_currency(1234567, "XOF") == f"1{self.NB}234{self.NB}567{self.NB}FCFA"
+
+    def test_fcfa_arrondit(self):
+        assert format_currency(9564.18, "XOF") == f"9{self.NB}564{self.NB}FCFA"
+
+    def test_euro_deux_decimales_virgule(self):
+        assert format_currency(1234.5, "EUR") == f"1{self.NB}234,50{self.NB}\u20ac"
+
+    def test_code_inconnu_sans_suffixe(self):
+        assert format_currency(1000, "ZZZ") == f"1{self.NB}000"
+
+
+class TestGabaritOuestAfricain:
+    def test_devise_fcfa_par_defaut(self):
+        # Sans champ currency, le rapport retombe sur le FCFA (contexte UEMOA).
+        html = build_report_html(sample_payload())
+        assert "FCFA" in html
+        assert "franc CFA (XOF)" in html
+        assert "secret bancaire" in html
+
+    def test_lieu_dans_bloc_signature(self):
+        payload = sample_payload()
+        payload["context"]["location"] = "Niamey"
+        html = build_report_html(payload)
+        assert "Fait à Niamey, le" in html
+        assert "Signature et visa" in html
+
+    def test_devise_none_masque_la_mention(self):
+        payload = sample_payload()
+        payload["branding"]["currency"] = "none"
+        html = build_report_html(payload)
+        assert "franc CFA (XOF)" not in html
+        # Le secret bancaire reste mentionné (indépendant de la devise).
+        assert "secret bancaire" in html
+
+    def test_devise_euro(self):
+        payload = sample_payload()
+        payload["branding"]["currency"] = "EUR"
+        html = build_report_html(payload)
+        assert "euro (EUR)" in html
+        assert "franc CFA (XOF)" not in html
+
+
 class TestRenderPdf:
     def test_pdf_valide(self):
         pdf = render_pdf(sample_payload())
         assert pdf[:5] == b"%PDF-"
         assert len(pdf) > 10_000  # document multi-pages, pas un stub
+
+    def test_pdf_gabarit_ouest_africain(self):
+        payload = sample_payload()
+        payload["branding"]["currency"] = "XOF"
+        payload["context"]["location"] = "Niamey"
+        pdf = render_pdf(payload)
+        assert pdf[:5] == b"%PDF-"
+        assert len(pdf) > 10_000

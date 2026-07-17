@@ -238,6 +238,8 @@ export interface ReportPayload {
     report_title: string;
     author: string;
     accent_color: string;
+    /** Devise du rapport : "XOF" (FCFA) par défaut, "none" pour aucune. */
+    currency: string;
   };
   context: {
     file_name: string;
@@ -245,6 +247,8 @@ export interface ReportPayload {
     column_count: number;
     import_options: string;
     exec_note: string;
+    /** Lieu d'établissement (ex. Niamey), pour le bloc signature. */
+    location: string;
     /** Identité de l'exportateur (journal d'audit — jamais les données). */
     exported_by: string;
     organization: string;

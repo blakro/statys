@@ -177,6 +177,8 @@ class ReportBranding(BaseModel):
     report_title: str = ""
     author: str = ""
     accent_color: str = ""
+    # Devise du rapport : XOF (FCFA) par défaut, « none » pour aucune.
+    currency: str = "XOF"
 
 
 class ReportContext(BaseModel):
@@ -185,6 +187,8 @@ class ReportContext(BaseModel):
     column_count: int = 0
     import_options: str = ""
     exec_note: str = ""
+    # Lieu d'établissement du rapport (ex. Niamey), utilisé dans le bloc signature.
+    location: str = ""
     # Identité de l'exportateur (journal d'audit — jamais les données).
     exported_by: str = ""
     organization: str = ""
