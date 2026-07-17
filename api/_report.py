@@ -348,13 +348,35 @@ def _safe_color(value: str | None) -> str:
     return "#416cae"
 
 
+class PdfEngineUnavailable(RuntimeError):
+    """Le moteur de rendu PDF (WeasyPrint) est indisponible sur cet environnement."""
+
+
 def render_pdf(payload: dict) -> bytes:
     """Rend le rapport en PDF. Émet un événement d'audit minimal sur stdout."""
     html = build_report_html(payload)
 
-    from weasyprint import HTML  # import différé : dépendance native lourde
+    try:
+        from weasyprint import HTML  # import différé : dépendance native lourde
 
-    pdf = HTML(string=html).write_pdf()
+        pdf = HTML(string=html).write_pdf()
+    except OSError as e:
+        # Bibliothèques natives (Pango/Cairo) absentes de l'environnement serverless.
+        print(
+            json.dumps(
+                {
+                    "event": "pdf_export_failed",
+                    "at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    "reason": str(e),
+                },
+                ensure_ascii=False,
+            ),
+            file=sys.stderr,
+        )
+        raise PdfEngineUnavailable(
+            "Le moteur de génération PDF est indisponible sur cet environnement "
+            "(dépendance native manquante)."
+        ) from e
 
     print(
         json.dumps(
