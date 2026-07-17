@@ -228,6 +228,48 @@ export async function fetchCorrelationMatrix(
   );
 }
 
+// ---------------------------------------------------------------------------
+// Rapport PDF
+// ---------------------------------------------------------------------------
+
+export interface ReportPayload {
+  branding: {
+    bank_name: string;
+    report_title: string;
+    author: string;
+    accent_color: string;
+  };
+  context: {
+    file_name: string;
+    row_count: number;
+    column_count: number;
+    import_options: string;
+    exec_note: string;
+  };
+  sections: {
+    kind: string;
+    title: string;
+    subtitle: string;
+    interpretation: string;
+    images: { title: string; data_uri: string }[];
+    tables: { title: string; columns: string[]; rows: (string | number)[][] }[];
+  }[];
+}
+
+/** Génère le rapport PDF (pas de cache : chaque export est un événement). */
+export async function fetchReportPdf(payload: ReportPayload): Promise<Blob> {
+  const res = await fetch("/api/py/report/pdf", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const detail = (await res.json().catch(() => null)) as { detail?: string } | null;
+    throw new ApiError(detail?.detail ?? `Échec de la génération du rapport (${res.status}).`);
+  }
+  return res.blob();
+}
+
 /** Vide le cache (à appeler quand un nouveau fichier est importé). */
 export function clearApiCache() {
   cache.clear();

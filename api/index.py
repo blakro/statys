@@ -11,11 +11,12 @@ tranche de données strictement nécessaire au calcul, répond, et n'écrit rien
 sur disque. Aucune donnée cliente n'est stockée côté serveur.
 """
 
+import datetime
 import platform
 
 import pandas as pd
 import scipy
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel, Field
 
 try:
@@ -26,6 +27,7 @@ try:
         correlation_matrix,
         correlations,
     )
+    from api._report import render_pdf
     from api._stats import univariate_numeric
 except ImportError:  # Exécution comme module isolé (fonction serverless Vercel).
     from _bivariate import (
@@ -34,6 +36,7 @@ except ImportError:  # Exécution comme module isolé (fonction serverless Verce
         correlation_matrix,
         correlations,
     )
+    from _report import render_pdf
     from _stats import univariate_numeric
 
 app = FastAPI(
@@ -147,3 +150,63 @@ def api_bivariate_categorical_categorical(payload: ContingencyInput) -> dict:
         return categorical_categorical(payload.observed, payload.row_labels, payload.col_labels)
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
+
+
+class ReportImage(BaseModel):
+    title: str = ""
+    data_uri: str
+
+
+class ReportTable(BaseModel):
+    title: str = ""
+    columns: list[str]
+    rows: list[list[str | int | float]]
+
+
+class ReportSection(BaseModel):
+    kind: str
+    title: str
+    subtitle: str = ""
+    interpretation: str = ""
+    images: list[ReportImage] = []
+    tables: list[ReportTable] = []
+
+
+class ReportBranding(BaseModel):
+    bank_name: str = ""
+    report_title: str = ""
+    author: str = ""
+    accent_color: str = ""
+
+
+class ReportContext(BaseModel):
+    file_name: str = ""
+    row_count: int = 0
+    column_count: int = 0
+    import_options: str = ""
+    exec_note: str = ""
+
+
+class ReportInput(BaseModel):
+    branding: ReportBranding
+    context: ReportContext
+    sections: list[ReportSection]
+
+
+@app.post("/api/py/report/pdf")
+def api_report_pdf(payload: ReportInput) -> Response:
+    """
+    Rapport PDF premium : page de garde, sommaire, résumé exécutif, une
+    section par analyse, méthodologie, annexes. Rendu HTML/CSS → PDF
+    (WeasyPrint). Sans état : le PDF part dans la réponse, rien n'est stocké.
+    """
+    try:
+        pdf = render_pdf(payload.model_dump())
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    filename = f"rapport-statys-{datetime.date.today().isoformat()}.pdf"
+    return Response(
+        content=pdf,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )

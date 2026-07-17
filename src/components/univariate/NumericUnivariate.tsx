@@ -10,6 +10,7 @@ import {
   MAX_API_VALUES,
   UnivariateNumericResult,
 } from "@/lib/api";
+import { downsample, ReportFigure } from "@/lib/report";
 import { PlotlyChart } from "@/components/PlotlyChart";
 
 const numberFr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 4 });
@@ -71,6 +72,123 @@ export function NumericUnivariate({ dataset, columnName }: { dataset: Dataset; c
       cancelled = true;
     };
   }, [dataset.fileName, columnName, values, importOptions.decimalSeparator]);
+
+  // Alimente le journal du rapport PDF (remplacé si la variable est re-analysée).
+  const addReportEntry = useSession((s) => s.addReportEntry);
+  useEffect(() => {
+    if (!result) return;
+    const { stats, normality } = result;
+    const figures: ReportFigure[] = [
+      {
+        title: "Histogramme",
+        data: [{ type: "histogram", x: numericValues, nbinsx: 30, marker: { color: "#315493" } }],
+        layout: {
+          xaxis: { title: { text: columnName } },
+          yaxis: { title: { text: "Effectif" } },
+          bargap: 0.02,
+        },
+      },
+      {
+        title: "Boxplot",
+        data: [
+          {
+            type: "box",
+            x: downsample(numericValues, 20000),
+            name: columnName,
+            boxpoints: "outliers",
+            boxmean: true,
+            orientation: "h",
+            marker: { color: "#315493" },
+          },
+        ],
+        layout: { xaxis: { title: { text: columnName } }, yaxis: { showticklabels: false } },
+      },
+    ];
+    if (result.qq) {
+      const qq = result.qq;
+      figures.push({
+        title: "QQ-plot (vs loi normale)",
+        data: [
+          {
+            type: "scatter",
+            mode: "markers",
+            x: qq.theoretical,
+            y: qq.sample,
+            name: "Quantiles observés",
+            marker: { size: 5, opacity: 0.7, color: "#315493" },
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: [qq.theoretical[0], qq.theoretical[qq.theoretical.length - 1]],
+            y: [
+              qq.slope * qq.theoretical[0] + qq.intercept,
+              qq.slope * qq.theoretical[qq.theoretical.length - 1] + qq.intercept,
+            ],
+            name: `Droite de Henry (R² = ${fmt(qq.r_squared)})`,
+            line: { color: "#b45309", width: 2, dash: "dash" },
+          },
+        ],
+        layout: {
+          xaxis: { title: { text: "Quantiles théoriques" } },
+          yaxis: { title: { text: "Quantiles observés" } },
+        },
+      });
+    }
+    addReportEntry({
+      id: `uni-num:${columnName}`,
+      kind: "univariate-numeric",
+      title: `Analyse univariée — ${columnName}`,
+      subtitle: `Variable quantitative — ${numberFr.format(stats.n)} valeurs analysées${
+        result.excluded > 0 ? `, ${numberFr.format(result.excluded)} exclues` : ""
+      }`,
+      interpretation: result.interpretation,
+      figures,
+      tables: [
+        {
+          title: "Statistiques descriptives",
+          columns: ["Indicateur", "Valeur"],
+          rows: [
+            ["Moyenne", fmt(stats.central.mean)],
+            ["Médiane", fmt(stats.central.median)],
+            ["Mode", fmt(stats.central.mode)],
+            ["Écart-type", fmt(stats.dispersion.std)],
+            ["Variance", fmt(stats.dispersion.variance)],
+            ["Écart interquartile (IQR)", fmt(stats.dispersion.iqr)],
+            ["Étendue", fmt(stats.dispersion.range)],
+            ["Coefficient de variation", fmt(stats.dispersion.cv)],
+            ["Minimum", fmt(stats.position.min)],
+            ["P10", fmt(stats.position.p10)],
+            ["Q1", fmt(stats.position.q1)],
+            ["Q3", fmt(stats.position.q3)],
+            ["P90", fmt(stats.position.p90)],
+            ["Maximum", fmt(stats.position.max)],
+            ["Asymétrie (skewness)", fmt(stats.position.skewness)],
+            ["Aplatissement (kurtosis)", fmt(stats.position.kurtosis)],
+          ],
+        },
+        ...(normality
+          ? [
+              {
+                title: "Test de normalité",
+                columns: ["Test", "Statistique", "p-value", "Conclusion"],
+                rows: [
+                  [
+                    normality.test,
+                    fmt(normality.statistic),
+                    fmtP(normality.pvalue),
+                    normality.normal
+                      ? "compatible avec la loi normale"
+                      : "s'écarte de la loi normale",
+                  ],
+                ],
+              },
+            ]
+          : []),
+      ],
+      createdAt: Date.now(),
+    });
+  }, [result, columnName, numericValues, addReportEntry]);
 
   const jitterAmplitude = useMemo(() => {
     if (!jitter || result === null) return 0;

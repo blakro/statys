@@ -5,6 +5,7 @@ import { Dataset } from "@/lib/dataset";
 import { useSession } from "@/lib/store";
 import { extractNumericPair } from "@/lib/bivariate-prep";
 import { ApiError, fetchNumericNumeric, NumericNumericResult } from "@/lib/api";
+import { downsample } from "@/lib/report";
 import { PlotlyChart } from "@/components/PlotlyChart";
 import {
   ErrorNotice,
@@ -58,6 +59,66 @@ export function NumericNumeric({
     }
     return { px, py };
   }, [x, y]);
+
+  // Alimente le journal du rapport PDF.
+  const addReportEntry = useSession((s) => s.addReportEntry);
+  useEffect(() => {
+    if (!result) return;
+    const reg = result.regression;
+    const xMin = Math.min(...points.px);
+    const xMax = Math.max(...points.px);
+    const idx = downsample(Array.from(points.px.keys()), 5000);
+    addReportEntry({
+      id: `nn:${xName}|${yName}`,
+      kind: "bivariate-nn",
+      title: `Corrélation — ${xName} × ${yName}`,
+      subtitle: `${numberFr.format(result.n)} paires complètes`,
+      interpretation: result.interpretation,
+      figures: [
+        {
+          title: `Nuage de points et droite de régression (R² = ${fmt(reg.r_squared)})`,
+          data: [
+            {
+              type: "scatter",
+              mode: "markers",
+              x: idx.map((i) => points.px[i]),
+              y: idx.map((i) => points.py[i]),
+              name: "Observations",
+              marker: { size: 5, opacity: 0.5, color: "#315493" },
+            },
+            {
+              type: "scatter",
+              mode: "lines",
+              x: [xMin, xMax],
+              y: [reg.slope * xMin + reg.intercept, reg.slope * xMax + reg.intercept],
+              name: "Régression",
+              line: { color: "#b45309", width: 2 },
+            },
+          ],
+          layout: { xaxis: { title: { text: xName } }, yaxis: { title: { text: yName } } },
+        },
+      ],
+      tables: [
+        {
+          title: "Coefficients de corrélation",
+          columns: ["Coefficient", "r", "p-value", "IC 95 %"],
+          rows: (
+            [
+              ["Pearson", result.pearson],
+              ["Spearman", result.spearman],
+              ["Kendall (τ)", result.kendall],
+            ] as const
+          ).map(([label, e]) => [
+            label,
+            fmt(e.r),
+            fmtP(e.pvalue),
+            e.ci95 ? `[${fmt(e.ci95[0])} ; ${fmt(e.ci95[1])}]` : "—",
+          ]),
+        },
+      ],
+      createdAt: Date.now(),
+    });
+  }, [result, xName, yName, points, addReportEntry]);
 
   if (error) return <ErrorNotice message={error} />;
   if (!result) return <LoadingNotice />;

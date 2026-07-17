@@ -62,6 +62,48 @@ export function CorrelationMatrix({ dataset }: { dataset: Dataset }) {
     );
   }, [result]);
 
+  // Alimente le journal du rapport PDF (une section par méthode).
+  const addReportEntry = useSession((s) => s.addReportEntry);
+  useEffect(() => {
+    if (!result) return;
+    const methodLabel = METHODS.find(([k]) => k === result.method)?.[1] ?? result.method;
+    addReportEntry({
+      id: `cm:${result.method}`,
+      kind: "correlation-matrix",
+      title: `Matrice de corrélation (${methodLabel})`,
+      subtitle: `${result.variables.length} variables — paires complètes deux à deux`,
+      interpretation: "",
+      figures: [
+        {
+          title: `Corrélations de ${methodLabel}`,
+          data: [
+            {
+              type: "heatmap",
+              x: result.variables,
+              y: result.variables,
+              z: result.matrix,
+              zmin: -1,
+              zmax: 1,
+              colorscale: [
+                [0, "#b45309"],
+                [0.5, "#f6f7f9"],
+                [1, "#233354"],
+              ],
+              colorbar: { title: { text: "r" } },
+            },
+          ],
+          layout: {
+            annotations: annotations as never,
+            xaxis: { automargin: true },
+            yaxis: { automargin: true, autorange: "reversed" },
+          },
+        },
+      ],
+      tables: [],
+      createdAt: Date.now(),
+    });
+  }, [result, annotations, addReportEntry]);
+
   function toggle(name: string) {
     setSelected((prev) =>
       prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]

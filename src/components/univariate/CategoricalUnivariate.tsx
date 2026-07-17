@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Dataset, isMissing } from "@/lib/dataset";
+import { useSession } from "@/lib/store";
 import { PlotlyChart } from "@/components/PlotlyChart";
 
 const numberFr = new Intl.NumberFormat("fr-FR");
@@ -89,6 +90,76 @@ export function CategoricalUnivariate({
       },
     ];
   }, [rows]);
+
+  // Alimente le journal du rapport PDF.
+  const addReportEntry = useSession((s) => s.addReportEntry);
+  useEffect(() => {
+    if (rows.length === 0) return;
+    const top = rows[0];
+    const missing = rows.find((r) => r.isMissing);
+    const kCount = rows.filter((r) => !r.isMissing).length;
+    const usePieFig = rows.length < PIE_MAX_CATEGORIES;
+    addReportEntry({
+      id: `uni-cat:${columnName}`,
+      kind: "univariate-categorical",
+      title: `Analyse univariée — ${columnName}`,
+      subtitle: `Variable qualitative — ${numberFr.format(kCount)} modalités`,
+      interpretation:
+        `« ${top.label} » est la modalité la plus fréquente ` +
+        `(${numberFr.format(top.count)} observations, ${pctFr.format(top.pct)} %).` +
+        (missing
+          ? ` Les valeurs manquantes représentent ${pctFr.format(missing.pct)} % des lignes.`
+          : ""),
+      figures: [
+        usePieFig
+          ? {
+              title: "Répartition (camembert)",
+              data: [
+                {
+                  type: "pie",
+                  labels: rows.map((r) => r.label),
+                  values: rows.map((r) => r.count),
+                  textinfo: "label+percent",
+                  hole: 0.35,
+                  sort: true,
+                },
+              ],
+              layout: {},
+            }
+          : {
+              title: "Répartition (barres, tri décroissant)",
+              data: [
+                {
+                  type: "bar",
+                  x: barRows.map((r) => r.count),
+                  y: barRows.map((r) => r.label),
+                  orientation: "h",
+                  marker: { color: barRows.map((r) => (r.isMissing ? "#cbd5e1" : "#315493")) },
+                },
+              ],
+              layout: {
+                xaxis: { title: { text: "Effectif" } },
+                yaxis: { autorange: "reversed", automargin: true },
+              },
+            },
+      ],
+      tables: [
+        {
+          title: "Tableau de fréquences",
+          columns: ["Modalité", "Effectif", "Fréquence", "Cumulée"],
+          rows: rows
+            .slice(0, 30)
+            .map((r) => [
+              r.label,
+              numberFr.format(r.count),
+              `${pctFr.format(r.pct)} %`,
+              `${pctFr.format(r.cumulativePct)} %`,
+            ]),
+        },
+      ],
+      createdAt: Date.now(),
+    });
+  }, [rows, barRows, columnName, addReportEntry]);
 
   if (rows.length === 0) {
     return <p className="text-sm text-slate-500">Aucune valeur dans cette colonne.</p>;

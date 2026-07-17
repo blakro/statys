@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Dataset } from "@/lib/dataset";
+import { useSession } from "@/lib/store";
 import { buildCrosstab, MAX_CROSS_MODALITIES } from "@/lib/bivariate-prep";
 import { ApiError, CategoricalCategoricalResult, fetchCategoricalCategorical } from "@/lib/api";
 import { PlotlyChart } from "@/components/PlotlyChart";
@@ -43,6 +44,70 @@ export function CategoricalCategorical({
       cancelled = true;
     };
   }, [dataset.fileName, xName, yName, crosstab]);
+
+  // Alimente le journal du rapport PDF.
+  const addReportEntry = useSession((s) => s.addReportEntry);
+  useEffect(() => {
+    if (!result) return;
+    addReportEntry({
+      id: `cc:${xName}|${yName}`,
+      kind: "bivariate-cc",
+      title: `${xName} × ${yName}`,
+      subtitle: `Tableau ${crosstab.rowLabels.length} × ${crosstab.colLabels.length} — ${numberFr.format(crosstab.total)} observations`,
+      interpretation: result.interpretation,
+      figures: [
+        {
+          title: "Répartition croisée (barres empilées)",
+          data: crosstab.colLabels.map((col, j) => ({
+            type: "bar",
+            name: col,
+            x: crosstab.rowLabels,
+            y: crosstab.observed.map((row) => row[j]),
+          })),
+          layout: {
+            barmode: "stack",
+            xaxis: { title: { text: xName }, automargin: true },
+            yaxis: { title: { text: "Effectif" } },
+            legend: { title: { text: yName } },
+          },
+        },
+      ],
+      tables: [
+        {
+          title: "Test d'indépendance",
+          columns: ["Élément", "Valeur"],
+          rows: [
+            ["Test", result.test.name + (result.test.reason ? ` (${result.test.reason})` : "")],
+            [
+              result.test.statistic_label,
+              `${fmt(result.test.statistic)}${result.test.df !== null ? ` — ddl = ${result.test.df}` : ""}`,
+            ],
+            ["p-value", fmtP(result.test.pvalue)],
+            ["V de Cramér", `${fmt(result.cramer_v)} (${result.cramer_v_magnitude})`],
+            ["Effectif attendu minimal", fmt(result.min_expected)],
+          ],
+        },
+        {
+          title: "Effectifs observés",
+          columns: [`${xName} \\ ${yName}`, ...crosstab.colLabels.slice(0, 12)],
+          rows: crosstab.rowLabels
+            .slice(0, 30)
+            .map((label, i) => [
+              label,
+              ...crosstab.observed[i].slice(0, 12).map((v) => numberFr.format(v)),
+            ]),
+        },
+        {
+          title: "Résidus standardisés ajustés (|r| > 2 : cellule porteuse de l'association)",
+          columns: [`${xName} \\ ${yName}`, ...crosstab.colLabels.slice(0, 12)],
+          rows: crosstab.rowLabels
+            .slice(0, 30)
+            .map((label, i) => [label, ...result.residuals[i].slice(0, 12).map((v) => fmt(v))]),
+        },
+      ],
+      createdAt: Date.now(),
+    });
+  }, [result, xName, yName, crosstab, addReportEntry]);
 
   if (crosstab.tooManyModalities) {
     return (

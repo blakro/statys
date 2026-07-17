@@ -14,6 +14,7 @@ import {
 } from "./dataset";
 import { parseFile, ParseError } from "./parse";
 import { clearApiCache } from "./api";
+import { ReportEntry } from "./report";
 
 interface SessionState {
   dataset: Dataset | null;
@@ -23,9 +24,14 @@ interface SessionState {
   importError: string | null;
   isParsing: boolean;
 
+  /** Journal des analyses de la session (sections candidates du rapport PDF). */
+  reportEntries: ReportEntry[];
+
   importFile: (file: File) => Promise<void>;
   updateOptions: (options: Partial<ImportOptions>) => void;
   setColumnType: (columnIndex: number, type: ColumnType) => void;
+  addReportEntry: (entry: ReportEntry) => void;
+  removeReportEntry: (id: string) => void;
   reset: () => void;
 }
 
@@ -35,6 +41,7 @@ export const useSession = create<SessionState>((set, get) => ({
   importOptions: DEFAULT_IMPORT_OPTIONS,
   importError: null,
   isParsing: false,
+  reportEntries: [],
 
   importFile: async (file: File) => {
     set({ isParsing: true, importError: null });
@@ -43,7 +50,13 @@ export const useSession = create<SessionState>((set, get) => ({
       const buffer = await file.arrayBuffer();
       const options = { ...DEFAULT_IMPORT_OPTIONS };
       const dataset = parseFile(file.name, buffer, options);
-      set({ dataset, fileBuffer: buffer, importOptions: options, isParsing: false });
+      set({
+        dataset,
+        fileBuffer: buffer,
+        importOptions: options,
+        isParsing: false,
+        reportEntries: [],
+      });
     } catch (e) {
       set({
         isParsing: false,
@@ -83,6 +96,22 @@ export const useSession = create<SessionState>((set, get) => ({
     set({ dataset: { ...dataset, columns } });
   },
 
+  addReportEntry: (entry: ReportEntry) => {
+    const { reportEntries } = get();
+    const index = reportEntries.findIndex((e) => e.id === entry.id);
+    if (index >= 0) {
+      // Re-visite d'une analyse : remplace la section, conserve sa position.
+      const next = reportEntries.slice();
+      next[index] = { ...entry, createdAt: reportEntries[index].createdAt };
+      set({ reportEntries: next });
+    } else {
+      set({ reportEntries: [...reportEntries, entry] });
+    }
+  },
+
+  removeReportEntry: (id: string) =>
+    set({ reportEntries: get().reportEntries.filter((e) => e.id !== id) }),
+
   reset: () => {
     clearApiCache();
     set({
@@ -91,6 +120,7 @@ export const useSession = create<SessionState>((set, get) => ({
       importOptions: DEFAULT_IMPORT_OPTIONS,
       importError: null,
       isParsing: false,
+      reportEntries: [],
     });
   },
 }));

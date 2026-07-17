@@ -5,6 +5,7 @@ import { Dataset } from "@/lib/dataset";
 import { useSession } from "@/lib/store";
 import { groupNumericByCategory, MAX_CROSS_MODALITIES } from "@/lib/bivariate-prep";
 import { ApiError, CategoricalNumericResult, fetchCategoricalNumeric } from "@/lib/api";
+import { downsample } from "@/lib/report";
 import { PlotlyChart } from "@/components/PlotlyChart";
 import {
   ErrorNotice,
@@ -61,6 +62,83 @@ export function CategoricalNumeric({
       cancelled = true;
     };
   }, [dataset.fileName, categoricalName, numericName, prep, includeKs, decimal]);
+
+  // Alimente le journal du rapport PDF.
+  const addReportEntry = useSession((s) => s.addReportEntry);
+  useEffect(() => {
+    if (!result) return;
+    addReportEntry({
+      id: `cn:${categoricalName}|${numericName}`,
+      kind: "bivariate-cn",
+      title: `${numericName} selon ${categoricalName}`,
+      subtitle: `Comparaison de ${result.decision.n_groups} groupes — chemin : ${result.decision.path.join(" → ")}`,
+      interpretation: result.interpretation,
+      figures: [
+        {
+          title: `${numericName} par modalité de ${categoricalName}`,
+          data: Object.entries(prep.groups).map(([label, values]) => ({
+            type: "box",
+            y: downsample(values, 10000),
+            name: label,
+            boxmean: true,
+            boxpoints: "outliers",
+          })),
+          layout: { showlegend: false, yaxis: { title: { text: numericName } } },
+        },
+      ],
+      tables: [
+        {
+          title: "Conditions vérifiées et test appliqué",
+          columns: ["Étape", "Résultat"],
+          rows: [
+            [
+              "Normalité par groupe",
+              result.assumptions.all_normal
+                ? "toutes les distributions sont normales"
+                : "au moins un groupe non normal",
+            ],
+            [
+              "Homogénéité des variances (Levene)",
+              `p = ${fmtP(result.assumptions.homogeneity.levene.pvalue)} — ${
+                result.assumptions.homogeneous ? "homogènes" : "non homogènes"
+              }`,
+            ],
+            [
+              "Test appliqué",
+              `${result.test.name} — statistique = ${fmt(result.test.statistic)}${
+                result.test.df !== null ? `, ddl = ${String(result.test.df)}` : ""
+              }, p = ${fmtP(result.test.pvalue)}`,
+            ],
+            [
+              "Taille d'effet",
+              `${result.effect_size.name} = ${fmt(result.effect_size.value)} (${result.effect_size.magnitude})`,
+            ],
+            ...(result.ks
+              ? [
+                  [
+                    "Kolmogorov-Smirnov (option)",
+                    `D = ${fmt(result.ks.statistic)}, p = ${fmtP(result.ks.pvalue)}`,
+                  ] as (string | number)[],
+                ]
+              : []),
+          ],
+        },
+        {
+          title: "Statistiques par groupe",
+          columns: ["Groupe", "n", "Moyenne", "IC 95 % (moyenne)", "Médiane", "Écart-type"],
+          rows: result.groups.map((g) => [
+            g.label,
+            numberFr.format(g.n),
+            fmt(g.mean),
+            `[${fmt(g.ci95[0])} ; ${fmt(g.ci95[1])}]`,
+            fmt(g.median),
+            fmt(g.std),
+          ]),
+        },
+      ],
+      createdAt: Date.now(),
+    });
+  }, [result, categoricalName, numericName, prep.groups, addReportEntry]);
 
   if (prep.tooManyGroups) {
     return (

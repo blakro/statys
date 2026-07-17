@@ -68,10 +68,15 @@ dashboard Vercel.
 
 Points de vigilance :
 
-- timeout des fonctions Python : 10 s (Hobby) / 60 s (Pro) — à surveiller pour
-  la génération PDF (Phase 4), augmenter `maxDuration` si besoin ;
+- timeout des fonctions Python : `vercel.json` fixe `maxDuration: 60` pour la
+  génération PDF ;
 - bundle Python limité à 500 Mo non compressés : ne pas ajouter scikit-learn
-  ou Playwright.
+  ou Playwright ;
+- WeasyPrint s'appuie sur les bibliothèques natives Pango/Cairo. Elles sont
+  présentes sur les distributions Linux classiques (dont ce dev container) ;
+  si l'environnement serverless ne les fournit pas, la fonction de calcul
+  peut être extraite telle quelle dans un conteneur Docker (chemin déjà prévu
+  pour l'hébergement dédié — voir « Sécurité »).
 
 ## Spécificités des fichiers français
 
@@ -106,6 +111,14 @@ L'import gère automatiquement (avec correction manuelle possible) :
    (observés / attendus / résidus standardisés ajustés), Khi-deux avec
    bascule automatique sur Fisher exact (2×2, attendu < 5), V de Cramér,
    barres empilées/groupées.
-4. ⬜ **Phase 4** — Rapport PDF premium (WeasyPrint).
+4. ✅ **Phase 4** — Rapport PDF premium (WeasyPrint, rendu HTML/CSS → PDF) :
+   page de garde brandée (établissement, titre, auteur, couleur d'accent),
+   sommaire avec numéros de page, résumé exécutif, une section par analyse
+   effectuée (graphiques identiques à l'écran — capturés en PNG par Plotly
+   côté navigateur, donc aucun moteur de rendu graphique dans la fonction
+   serverless —, tableaux, interprétation automatique), méthodologie adaptée
+   aux tests réellement utilisés, annexes de reproductibilité. Génération
+   asynchrone avec progression ; les analyses des onglets 2 et 3 sont
+   journalisées automatiquement et sélectionnables dans l'onglet 4.
 5. ⬜ **Phase 5** — Couche SaaS multi-tenant via Clerk (organisations, rôles).
 6. ⬜ **Phase 6** — Polish UI/UX (branding, responsive, accessibilité).
