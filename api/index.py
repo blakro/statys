@@ -27,7 +27,7 @@ try:
         correlation_matrix,
         correlations,
     )
-    from api._report import render_pdf
+    from api._report import PdfEngineUnavailable, render_pdf
     from api._stats import univariate_numeric
 except ImportError:  # Exécution comme module isolé (fonction serverless Vercel).
     from _bivariate import (
@@ -36,7 +36,7 @@ except ImportError:  # Exécution comme module isolé (fonction serverless Verce
         correlation_matrix,
         correlations,
     )
-    from _report import render_pdf
+    from _report import PdfEngineUnavailable, render_pdf
     from _stats import univariate_numeric
 
 app = FastAPI(
@@ -207,6 +207,8 @@ def api_report_pdf(payload: ReportInput) -> Response:
         pdf = render_pdf(payload.model_dump())
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
+    except PdfEngineUnavailable as e:
+        raise HTTPException(status_code=503, detail=str(e))
     filename = f"rapport-statys-{datetime.date.today().isoformat()}.pdf"
     return Response(
         content=pdf,

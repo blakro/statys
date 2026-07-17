@@ -20,6 +20,8 @@ from __future__ import annotations
 import base64
 import datetime
 import json
+import os
+import pathlib
 import re
 import sys
 
@@ -348,13 +350,97 @@ def _safe_color(value: str | None) -> str:
     return "#416cae"
 
 
+class PdfEngineUnavailable(RuntimeError):
+    """Le moteur de rendu PDF (WeasyPrint) est indisponible sur cet environnement."""
+
+
+#: Pango/Cairo et leurs dépendances ne sont pas fournies par le runtime Python
+#: serverless de Vercel (voir README, section « Déploiement Vercel »). Une
+#: copie minimale (Pango, HarfBuzz, Fontconfig, Freetype... + police DejaVu)
+#: est vendue ici en secours, activée systématiquement quand elle est présente
+#: (voir render_pdf : mélanger ces bibliothèques avec une éventuelle version
+#: système déjà chargée provoquerait un conflit d'ABI).
+_VENDOR_DIR = pathlib.Path(__file__).parent / "_vendor" / "weasyprint"
+
+
+#: Bibliothèques que WeasyPrint (cffi) charge lui-même par leur nom nu — sans
+#: passer par un chemin. LD_LIBRARY_PATH ne peut pas les aiguiller vers notre
+#: copie vendue : le lieur dynamique le lit une seule fois au démarrage du
+#: processus, bien avant que ce module ne s'exécute, donc le modifier à chaud
+#: via os.environ n'a aucun effet sur les dlopen() suivants. On précharge donc
+#: nous-mêmes chaque bibliothèque par son chemin absolu (ctypes) ; le
+#: dlopen() par nom fait ensuite par WeasyPrint les retrouve par
+#: correspondance de SONAME sans avoir besoin de les chercher sur le disque.
+#: Les .so vendus ont chacun un RUNPATH=$ORIGIN (patchelf, lors de la
+#: préparation du vendor) : leurs propres dépendances transitives (glib,
+#: freetype, harfbuzz — y compris la paire circulaire freetype↔harfbuzz) se
+#: résolvent donc automatiquement dans ce même dossier, sans dépendre de
+#: l'ordre de chargement ni des bibliothèques déjà présentes sur le système.
+_VENDOR_LIB_ENTRYPOINTS = (
+    "libgobject-2.0.so.0",
+    "libpango-1.0.so.0",
+    "libharfbuzz.so.0",
+    "libharfbuzz-subset.so.0",
+    "libfontconfig.so.1",
+    "libpangoft2-1.0.so.0",
+)
+
+
+def _activate_vendored_native_libs() -> None:
+    lib_dir = _VENDOR_DIR / "lib"
+    if not lib_dir.is_dir():
+        return
+
+    import ctypes
+
+    for name in _VENDOR_LIB_ENTRYPOINTS:
+        path = lib_dir / name
+        if path.is_file():
+            ctypes.CDLL(str(path))
+
+    fontconfig_conf = pathlib.Path("/tmp/statys-fonts.conf")
+    fontconfig_conf.write_text(
+        '<?xml version="1.0"?>\n'
+        '<!DOCTYPE fontconfig SYSTEM "fonts.dtd">\n'
+        "<fontconfig>\n"
+        f'  <dir>{_VENDOR_DIR / "fonts" / "dejavu-sans-fonts"}</dir>\n'
+        '  <cachedir>/tmp/statys-fontconfig-cache</cachedir>\n'
+        "</fontconfig>\n"
+    )
+    os.environ["FONTCONFIG_FILE"] = str(fontconfig_conf)
+
+
 def render_pdf(payload: dict) -> bytes:
     """Rend le rapport en PDF. Émet un événement d'audit minimal sur stdout."""
     html = build_report_html(payload)
 
-    from weasyprint import HTML  # import différé : dépendance native lourde
+    try:
+        # Doit s'exécuter avant le tout premier import de weasyprint : une
+        # fois qu'une bibliothèque native (p. ex. le Glib système) est chargée
+        # dans le processus, charger ensuite une version vendue en parallèle
+        # provoquerait un conflit d'ABI entre les deux copies.
+        _activate_vendored_native_libs()
 
-    pdf = HTML(string=html).write_pdf()
+        from weasyprint import HTML  # import différé : dépendance native lourde
+
+        pdf = HTML(string=html).write_pdf()
+    except OSError as e:
+        # Bibliothèques natives (Pango/Cairo) absentes de l'environnement serverless.
+        print(
+            json.dumps(
+                {
+                    "event": "pdf_export_failed",
+                    "at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    "reason": str(e),
+                },
+                ensure_ascii=False,
+            ),
+            file=sys.stderr,
+        )
+        raise PdfEngineUnavailable(
+            "Le moteur de génération PDF est indisponible sur cet environnement "
+            "(dépendance native manquante)."
+        ) from e
 
     print(
         json.dumps(

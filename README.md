@@ -102,11 +102,15 @@ Points de vigilance :
   génération PDF ;
 - bundle Python limité à 500 Mo non compressés : ne pas ajouter scikit-learn
   ou Playwright ;
-- WeasyPrint s'appuie sur les bibliothèques natives Pango/Cairo. Elles sont
-  présentes sur les distributions Linux classiques (dont ce dev container) ;
-  si l'environnement serverless ne les fournit pas, la fonction de calcul
-  peut être extraite telle quelle dans un conteneur Docker (chemin déjà prévu
-  pour l'hébergement dédié — voir « Sécurité »).
+- WeasyPrint s'appuie sur les bibliothèques natives Pango/HarfBuzz/Fontconfig,
+  absentes du runtime Python serverless de Vercel. Une copie minimale (~15 Mo,
+  build Amazon Linux 2023 / Python 3.12 assortie d'une police DejaVu) est
+  vendue dans `api/_vendor/weasyprint/` et chargée automatiquement par
+  `_report.py` quand elle est présente — voir les commentaires de
+  `_activate_vendored_native_libs()` pour le détail du mécanisme (préchargement
+  par chemin absolu + RUNPATH `$ORIGIN`, LD_LIBRARY_PATH étant inefficace une
+  fois le processus démarré). Si l'export échoue quand même, l'API répond une
+  503 explicite plutôt qu'un crash ASGI brut.
 
 ## Spécificités des fichiers français
 
