@@ -1,0 +1,7 @@
+# Moteur statistique (fonctions serverless Python sur Vercel).
+# Rester sous la limite de 500 Mo non compressés du bundle Vercel :
+# ne pas ajouter scikit-learn / Playwright ici.
+fastapi==0.111.1
+pandas==2.2.3
+scipy==1.13.1
+uvicorn==0.30.6
