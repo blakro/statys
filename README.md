@@ -4,6 +4,13 @@ Plateforme multi-tenant permettant à un analyste d'importer un jeu de données
 (CSV, Excel), d'explorer chaque variable (analyses univariées et bivariées avec
 sélection automatique des tests statistiques) et d'exporter un rapport PDF.
 
+📄 **[Rapport pédagogique d'exemple](docs/rapport-pedagogique-statys.pdf)** —
+généré par la plateforme sur le jeu de démonstration (portefeuille crédit
+fictif en FCFA) : chaque analyse y est accompagnée d'un lexique qui explique
+chaque indicateur statistique en langage courant, pour un lecteur non
+statisticien. C'est à la fois une vitrine du rendu et un guide de lecture des
+rapports Statys.
+
 **Principe de confidentialité** : le fichier importé reste en mémoire dans le
 navigateur le temps de la session. Chaque calcul envoie à l'API Python la
 tranche de données strictement nécessaire ; rien n'est écrit sur disque ni

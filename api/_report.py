@@ -149,7 +149,7 @@ TEMPLATE = """<!DOCTYPE html>
   @page {
     size: A4;
     margin: 22mm 18mm 20mm 18mm;
-    @bottom-left { content: "{{ branding.bank_name }} — {{ branding.report_title }}"; font-size: 7.5pt; color: #64748b; }
+    @bottom-left { content: "{{ footer_text }}"; font-size: 7.5pt; color: #64748b; }
     @bottom-right { content: "Page " counter(page) " / " counter(pages); font-size: 7.5pt; color: #64748b; }
   }
   @page cover { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
@@ -396,11 +396,16 @@ def build_report_html(payload: dict) -> str:
         "logo_data_uri": logo_data_uri,
     }
 
+    from markupsafe import Markup
+
     env = Environment(loader=BaseLoader(), autoescape=select_autoescape(["html"]))
     env.filters["currency"] = format_currency
     template = env.from_string(TEMPLATE)
     return template.render(
         branding=branding,
+        footer_text=Markup(
+            _css_string(f"{branding['bank_name']} — {branding['report_title']}")
+        ),
         currency=currency,
         context=payload.get("context") or {},
         sections=sections,
@@ -415,6 +420,15 @@ def _safe_color(value: str | None) -> str:
     if value and re.fullmatch(r"#[0-9a-fA-F]{6}", value):
         return value
     return "#416cae"
+
+
+def _css_string(value: str) -> str:
+    """Assainit un texte destiné à une chaîne CSS entre guillemets (pied de page
+    @page). L'autoescape HTML de Jinja est inadapté dans un bloc <style> — il
+    transformerait « l'analyse » en « l&#39;analyse » — donc ce texte est rendu
+    avec |safe après retrait des caractères qui permettraient de sortir de la
+    chaîne ou du bloc de style."""
+    return re.sub(r'["\\<>\r\n]', "", value)
 
 
 class PdfEngineUnavailable(RuntimeError):
