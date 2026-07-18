@@ -138,6 +138,11 @@ Le formulaire d'export (onglet Rapport) propose des options adaptées aux
   page de garde.
 - **Confidentialité** : mention du secret bancaire UEMOA/BCEAO, en plus de la
   mention « usage interne », et bloc de signature/visa en fin de rapport.
+- **Jeu de démonstration** : l'onglet Données propose « Essayer avec le jeu
+  d'exemple » — portefeuille crédit fictif d'une banque nigérienne
+  (`public/demo/portefeuille-credit-demo.csv`, 320 dossiers générés,
+  montants en FCFA, agences, secteurs, statuts et impayés corrélés de façon
+  réaliste). Il passe par le pipeline d'import standard, comme un vrai fichier.
 
 ## Plan de construction
 

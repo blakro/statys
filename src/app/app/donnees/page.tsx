@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession } from "@/lib/store";
 import { FileDropzone } from "@/components/FileDropzone";
+import { DemoDatasetButton } from "@/components/DemoDatasetButton";
 import { ImportOptionsBar } from "@/components/ImportOptionsBar";
 import { QualitySummary } from "@/components/QualitySummary";
 import { ColumnSchemaTable } from "@/components/ColumnSchemaTable";
@@ -37,7 +38,12 @@ export default function DonneesPage() {
         </p>
       )}
 
-      {!dataset && <FileDropzone />}
+      {!dataset && (
+        <>
+          <FileDropzone />
+          {!isParsing && <DemoDatasetButton />}
+        </>
+      )}
 
       {isParsing && (
         <div role="status" className="flex items-center gap-3 text-sm text-slate-600">

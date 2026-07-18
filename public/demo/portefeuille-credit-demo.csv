@@ -1,0 +1,321 @@
+id_dossier;agence;secteur;type_credit;montant_accorde_fcfa;encours_fcfa;impaye_fcfa;taux_interet_pct;duree_mois;date_octroi;statut;garantie
+CR-2022-0001;Zinder;Services;Trésorerie;1675000;80000;0;10,0;24;03/01/2022;Sain;Aucune
+CR-2022-0002;Agadez;Commerce;Trésorerie;3125000;150000;0;11,5;18;11/01/2022;Sain;Nantissement
+CR-2022-0003;Tahoua;Transport;Investissement;9050000;1197000;0;9,9;48;12/01/2022;Sain;Hypothèque
+CR-2022-0004;Niamey Plateau;Commerce;Investissement;2650000;795000;0;8,4;60;13/01/2022;Sain;Nantissement
+CR-2022-0005;Zinder;Commerce;Trésorerie;625000;30000;6000;10,4;24;18/01/2022;Douteux;Dépôt à terme
+CR-2022-0006;Dosso;Transport;Investissement;7175000;1015000;0;7,9;48;29/01/2022;Sain;Nantissement
+CR-2022-0007;Maradi;Agriculture;Campagne agricole;975000;45000;12000;9,8;9;31/01/2022;Douteux;Caution solidaire
+CR-2022-0008;Dosso;Services;Découvert;4525000;4186000;0;12,7;6;08/02/2022;Sain;Caution solidaire
+CR-2022-0009;Niamey Plateau;Commerce;Trésorerie;8050000;381000;0;10,5;12;17/02/2022;Sain;Nantissement
+CR-2022-0010;Tahoua;Services;Découvert;875000;392000;0;12,1;6;23/02/2022;Sain;Dépôt à terme
+CR-2022-0011;Agadez;Commerce;Trésorerie;1550000;80000;0;10,5;6;05/03/2022;Sain;Nantissement
+CR-2022-0012;Tahoua;Commerce;Trésorerie;1575000;80000;0;11,0;24;05/03/2022;Sain;Caution solidaire
+CR-2022-0013;Niamey Grand Marché;Commerce;Découvert;1425000;670000;61000;15,0;12;10/03/2022;En retard;Caution solidaire
+CR-2022-0014;Dosso;Commerce;Trésorerie;7150000;330000;0;10,2;24;22/03/2022;Sain;Caution solidaire
+CR-2022-0015;Dosso;Commerce;Trésorerie;5450000;258000;0;11,5;12;23/03/2022;Sain;Nantissement
+CR-2022-0016;Agadez;BTP;Investissement;4925000;1741000;0;7,8;60;23/03/2022;Sain;Hypothèque
+CR-2022-0017;Tahoua;Services;Découvert;2175000;1440000;0;11,8;12;30/03/2022;Sain;Dépôt à terme
+CR-2022-0018;Agadez;Commerce;Investissement;1125000;608000;0;9,7;84;03/04/2022;Sain;Nantissement
+CR-2022-0019;Agadez;Services;Investissement;2750000;1233000;0;8,3;72;04/04/2022;Sain;Hypothèque
+CR-2022-0020;Niamey Grand Marché;Commerce;Investissement;2975000;1701000;0;9,2;84;04/04/2022;Sain;Hypothèque
+CR-2022-0021;Dosso;Agriculture;Campagne agricole;275000;13000;0;7,6;12;08/04/2022;Sain;Nantissement
+CR-2022-0022;Zinder;Commerce;Trésorerie;1100000;52000;0;10,1;6;10/04/2022;Sain;Caution solidaire
+CR-2022-0023;Agadez;Services;Trésorerie;3375000;161000;0;10,5;24;16/04/2022;Sain;Dépôt à terme
+CR-2022-0024;Niamey Plateau;BTP;Investissement;29675000;1510000;91000;8,4;24;17/04/2022;En retard;Nantissement
+CR-2022-0025;Niamey Plateau;Artisanat;Découvert;750000;155000;0;12,5;9;18/04/2022;Sain;Caution solidaire
+CR-2022-0026;Niamey Plateau;Commerce;Trésorerie;3475000;187000;0;12,2;24;20/04/2022;Sain;Caution solidaire
+CR-2022-0027;Dosso;BTP;Investissement;6625000;3189000;0;7,6;72;20/04/2022;Sain;Caution solidaire
+CR-2022-0028;Niamey Plateau;Commerce;Investissement;5025000;2369000;0;8,3;72;21/04/2022;Sain;Nantissement
+CR-2022-0029;Agadez;Artisanat;Investissement;725000;424000;0;9,3;84;28/04/2022;Sain;Hypothèque
+CR-2022-0030;Niamey Plateau;Commerce;Trésorerie;1075000;51000;0;10,6;24;01/05/2022;Sain;Aucune
+CR-2022-0031;Dosso;BTP;Investissement;12650000;6221000;0;7,4;72;07/05/2022;Sain;Caution solidaire
+CR-2022-0032;Zinder;Agriculture;Campagne agricole;2250000;121000;0;9,1;9;08/05/2022;Sain;Caution solidaire
+CR-2022-0033;Niamey Plateau;BTP;Trésorerie;8350000;422000;0;11,7;24;09/05/2022;Sain;Caution solidaire
+CR-2022-0034;Zinder;Transport;Investissement;4100000;197000;17000;7,8;24;09/05/2022;En retard;Nantissement
+CR-2022-0035;Niamey Grand Marché;Commerce;Investissement;2775000;956000;446000;7,6;60;09/05/2022;Douteux;Nantissement
+CR-2022-0036;Maradi;Commerce;Investissement;2775000;130000;0;9,4;36;14/05/2022;Sain;Nantissement
+CR-2022-0037;Maradi;Services;Découvert;3550000;872000;0;12,7;6;20/05/2022;Sain;Dépôt à terme
+CR-2022-0038;Tahoua;Commerce;Investissement;1675000;995000;21000;8,2;84;20/05/2022;En retard;
+CR-2022-0039;Niamey Plateau;Agriculture;Campagne agricole;2275000;113000;9000;9,1;12;27/05/2022;En retard;Aucune
+CR-2022-0040;Zinder;Commerce;Investissement;3150000;670000;0;7,4;48;02/06/2022;Sain;Hypothèque
+CR-2022-0041;Niamey Plateau;Agriculture;Trésorerie;1150000;59000;5000;10,2;18;03/06/2022;En retard;Aucune
+CR-2022-0042;Niamey Grand Marché;Services;Investissement;11000000;5074000;0;7,8;72;07/06/2022;Sain;Nantissement
+CR-2022-0043;Dosso;Artisanat;Trésorerie;575000;28000;0;9,9;12;13/06/2022;Sain;Nantissement
+CR-2022-0044;Niamey Grand Marché;Commerce;Découvert;8000000;6910000;0;13,4;6;17/06/2022;Sain;Dépôt à terme
+CR-2022-0045;Niamey Grand Marché;Services;Investissement;1900000;90000;0;8,7;36;23/06/2022;Sain;Caution solidaire
+CR-2022-0046;Dosso;Commerce;Découvert;2225000;1789000;0;12,4;12;23/06/2022;Sain;Caution solidaire
+CR-2022-0047;Maradi;BTP;Trésorerie;2250000;119000;0;11,9;18;28/06/2022;Sain;Caution solidaire
+CR-2022-0048;Niamey Grand Marché;Commerce;Découvert;1075000;439000;0;13,2;9;02/07/2022;Sain;Aucune
+CR-2022-0049;Zinder;Commerce;Investissement;5975000;315000;0;8,7;36;03/07/2022;Sain;Hypothèque
+CR-2022-0050;Niamey Grand Marché;Commerce;Investissement;1775000;463000;0;7,3;48;03/07/2022;Sain;Caution solidaire
+CR-2022-0051;Niamey Grand Marché;Agriculture;Campagne agricole;975000;50000;0;10,3;9;10/07/2022;Sain;Caution solidaire
+CR-2022-0052;Niamey Plateau;BTP;Trésorerie;29625000;1561000;0;10,2;24;16/07/2022;Sain;Dépôt à terme
+CR-2022-0053;Maradi;Agriculture;Trésorerie;875000;42000;1000;12,2;12;24/07/2022;En retard;Nantissement
+CR-2022-0054;Maradi;Transport;Découvert;3350000;2497000;0;13,0;6;25/07/2022;Sain;Dépôt à terme
+CR-2022-0055;Zinder;Agriculture;Trésorerie;2175000;107000;0;10,5;6;26/07/2022;Sain;Nantissement
+CR-2022-0056;Zinder;Commerce;Investissement;2725000;1398000;0;7,8;72;28/07/2022;Sain;Caution solidaire
+CR-2022-0057;Tahoua;Transport;Trésorerie;1500000;81000;0;11,6;12;01/08/2022;Sain;Nantissement
+CR-2022-0058;Agadez;Commerce;Investissement;10925000;4708000;0;9,0;60;02/08/2022;Sain;Nantissement
+CR-2022-0059;Dosso;Agriculture;Trésorerie;2775000;130000;0;12,0;24;03/08/2022;Sain;Nantissement
+CR-2022-0060;Zinder;Commerce;Trésorerie;2675000;135000;0;10,9;24;05/08/2022;Sain;Nantissement
+CR-2022-0061;Niamey Grand Marché;Transport;Investissement;2250000;106000;0;7,5;24;06/08/2022;Sain;Nantissement
+CR-2022-0062;Niamey Plateau;Commerce;Découvert;2475000;1230000;0;14,5;12;07/08/2022;Sain;Aucune
+CR-2022-0063;Niamey Plateau;Commerce;Trésorerie;6025000;282000;0;10,8;6;17/08/2022;Sain;Caution solidaire
+CR-2022-0064;Tahoua;Commerce;Trésorerie;9450000;465000;0;10,8;24;23/08/2022;Sain;Nantissement
+CR-2022-0065;Dosso;Services;Découvert;4200000;3824000;0;12,4;9;23/08/2022;Sain;Aucune
+CR-2022-0066;Zinder;Commerce;Découvert;1075000;425000;0;14,1;9;29/08/2022;Sain;Caution solidaire
+CR-2022-0067;Niamey Plateau;Services;Découvert;4325000;2776000;0;12,0;6;06/09/2022;Sain;Aucune
+CR-2022-0068;Agadez;Transport;Trésorerie;4950000;233000;77000;8,8;18;06/09/2022;Douteux;Dépôt à terme
+CR-2022-0069;Niamey Plateau;Agriculture;Campagne agricole;1075000;56000;0;9,5;12;15/09/2022;Sain;Nantissement
+CR-2022-0070;Maradi;BTP;Investissement;7050000;516000;25000;9,5;36;22/09/2022;En retard;Hypothèque
+CR-2022-0071;Agadez;Services;Trésorerie;2600000;134000;0;10,0;6;24/09/2022;Sain;Aucune
+CR-2022-0072;Zinder;Agriculture;Campagne agricole;1500000;69000;25000;8,4;6;25/09/2022;Douteux;Aucune
+CR-2022-0073;Niamey Grand Marché;Commerce;Découvert;600000;492000;0;13,1;6;25/09/2022;Sain;Aucune
+CR-2022-0074;Maradi;Agriculture;Investissement;1100000;646000;63000;8,6;84;25/09/2022;En retard;Nantissement
+CR-2022-0075;Niamey Plateau;Transport;Trésorerie;3875000;182000;0;11,6;6;27/09/2022;Sain;Caution solidaire
+CR-2022-0076;Maradi;Agriculture;Campagne agricole;950000;44000;0;9,9;12;28/09/2022;Sain;Caution solidaire
+CR-2022-0077;Dosso;Commerce;Découvert;2075000;1915000;0;11,9;12;28/09/2022;Sain;Caution solidaire
+CR-2022-0078;Zinder;Commerce;Découvert;1250000;688000;0;12,0;12;29/09/2022;Sain;Aucune
+CR-2022-0079;Dosso;Commerce;Découvert;525000;217000;0;11,1;12;07/10/2022;Sain;Aucune
+CR-2022-0080;Zinder;BTP;Trésorerie;7950000;384000;80000;11,0;18;08/10/2022;Douteux;Caution solidaire
+CR-2022-0081;Niamey Plateau;Services;Découvert;525000;306000;0;13,5;9;09/10/2022;Sain;Aucune
+CR-2022-0082;Dosso;Services;Investissement;2425000;211000;0;8,2;36;10/10/2022;Sain;Nantissement
+CR-2022-0083;Niamey Grand Marché;Services;Trésorerie;4625000;242000;0;10,4;18;14/10/2022;Sain;Dépôt à terme
+CR-2022-0084;Tahoua;Commerce;Découvert;6750000;6186000;0;12,0;12;19/10/2022;Sain;Aucune
+CR-2022-0085;Niamey Grand Marché;Artisanat;Découvert;2800000;1800000;0;;6;23/10/2022;Sain;Dépôt à terme
+CR-2022-0086;Niamey Grand Marché;Commerce;Découvert;3700000;1817000;0;12,7;9;01/11/2022;Sain;Dépôt à terme
+CR-2022-0087;Tahoua;Services;Trésorerie;2000000;105000;0;9,6;12;06/11/2022;Sain;Caution solidaire
+CR-2022-0088;Tahoua;Commerce;Trésorerie;1975000;92000;0;10,3;12;12/11/2022;Sain;Caution solidaire
+CR-2022-0089;Niamey Plateau;BTP;Trésorerie;28850000;1440000;0;11,4;18;14/11/2022;Sain;Nantissement
+CR-2022-0090;Niamey Grand Marché;Commerce;Découvert;4725000;2968000;0;12,6;9;15/11/2022;Sain;Caution solidaire
+CR-2022-0091;Dosso;Commerce;Investissement;2925000;1091000;0;9,3;48;19/11/2022;Sain;Hypothèque
+CR-2022-0092;Dosso;BTP;Trésorerie;7700000;385000;0;11,6;24;24/11/2022;Sain;Nantissement
+CR-2022-0093;Niamey Grand Marché;Agriculture;Campagne agricole;3150000;146000;61000;9,0;6;24/11/2022;Douteux;Caution solidaire
+CR-2022-0094;Niamey Grand Marché;BTP;Investissement;2950000;418000;26000;9,0;36;25/11/2022;En retard;Hypothèque
+CR-2022-0095;Dosso;BTP;Découvert;18650000;13320000;0;12,8;12;05/12/2022;Sain;Caution solidaire
+CR-2022-0096;Tahoua;Commerce;Trésorerie;3000000;156000;0;11,0;12;06/12/2022;Sain;Nantissement
+CR-2022-0097;Niamey Grand Marché;Commerce;Trésorerie;3450000;182000;0;11,0;12;08/12/2022;Sain;Nantissement
+CR-2022-0098;Niamey Plateau;Services;Découvert;2000000;1896000;0;11,6;12;16/12/2022;Sain;Dépôt à terme
+CR-2022-0099;Agadez;Commerce;Trésorerie;875000;41000;0;12,5;18;21/12/2022;Sain;Nantissement
+CR-2022-0100;Niamey Plateau;Agriculture;Campagne agricole;1775000;83000;15000;10,5;9;23/12/2022;Douteux;Nantissement
+CR-2022-0101;Dosso;Artisanat;Trésorerie;1150000;53000;2000;12,1;6;24/12/2022;En retard;Nantissement
+CR-2022-0102;Zinder;Agriculture;Campagne agricole;3125000;161000;0;9,0;9;25/12/2022;Sain;Caution solidaire
+CR-2022-0103;Zinder;Commerce;Découvert;625000;566000;0;13,0;12;29/12/2022;Sain;Caution solidaire
+CR-2022-0104;Agadez;Commerce;Découvert;3450000;1049000;0;12,1;6;30/12/2022;Sain;Dépôt à terme
+CR-2023-0001;Agadez;Artisanat;Investissement;700000;375000;0;8,4;60;02/01/2023;Sain;Caution solidaire
+CR-2023-0002;Zinder;Services;Trésorerie;3550000;172000;0;11,6;6;07/01/2023;Sain;Nantissement
+CR-2023-0003;Niamey Grand Marché;Agriculture;Campagne agricole;1725000;87000;0;9,3;12;19/01/2023;Sain;Caution solidaire
+CR-2023-0004;Maradi;Services;Investissement;1200000;719000;0;9,3;72;10/02/2023;Sain;Hypothèque
+CR-2023-0005;Maradi;Commerce;Trésorerie;1100000;59000;0;11,3;24;16/02/2023;Sain;Nantissement
+CR-2023-0006;Dosso;Commerce;Investissement;525000;327000;0;7,1;72;16/02/2023;Sain;Hypothèque
+CR-2023-0007;Niamey Grand Marché;Agriculture;Campagne agricole;800000;41000;0;8,5;9;21/02/2023;Sain;Caution solidaire
+CR-2023-0008;Agadez;Commerce;Trésorerie;3875000;188000;0;11,4;6;21/02/2023;Sain;Aucune
+CR-2023-0009;Dosso;Services;Investissement;3450000;2465000;0;8,2;84;28/02/2023;Sain;Caution solidaire
+CR-2023-0010;Zinder;Artisanat;Trésorerie;3800000;183000;14000;10,2;6;01/03/2023;En retard;Dépôt à terme
+CR-2023-0011;Zinder;Commerce;Trésorerie;2550000;132000;0;10,0;18;06/03/2023;Sain;Caution solidaire
+CR-2023-0012;Tahoua;Commerce;Investissement;1425000;69000;0;9,2;24;08/03/2023;Sain;Nantissement
+CR-2023-0013;Agadez;Services;Investissement;1500000;998000;0;7,1;84;09/03/2023;Sain;Hypothèque
+CR-2023-0014;Maradi;Agriculture;Investissement;675000;335000;18000;8,4;60;10/03/2023;En retard;Nantissement
+CR-2023-0015;Zinder;BTP;Investissement;7175000;3266000;0;8,4;48;26/03/2023;Sain;Caution solidaire
+CR-2023-0016;Agadez;Services;Découvert;1225000;454000;0;13,5;9;27/03/2023;Sain;Caution solidaire
+CR-2023-0017;Tahoua;Services;Trésorerie;16375000;803000;0;10,9;18;05/04/2023;Sain;Dépôt à terme
+CR-2023-0018;Dosso;Transport;Découvert;2325000;1151000;370000;13,0;6;08/04/2023;Douteux;Caution solidaire
+CR-2023-0019;Niamey Grand Marché;BTP;Investissement;22675000;1088000;0;8,6;24;13/04/2023;Sain;Hypothèque
+CR-2023-0020;Dosso;Transport;Découvert;7950000;2541000;952000;14,2;6;14/04/2023;Douteux;Aucune
+CR-2023-0021;Dosso;Agriculture;Campagne agricole;1375000;71000;40000;9,5;9;16/04/2023;Douteux;Caution solidaire
+CR-2023-0022;Maradi;Artisanat;Découvert;1000000;524000;302000;12,6;12;17/04/2023;Douteux;Caution solidaire
+CR-2023-0023;Maradi;Agriculture;Campagne agricole;1800000;85000;14000;10,5;12;17/04/2023;Douteux;Nantissement
+CR-2023-0024;Zinder;Transport;Trésorerie;2525000;128000;0;10,5;24;20/04/2023;Sain;Dépôt à terme
+CR-2023-0025;Maradi;Commerce;Trésorerie;1725000;79000;0;10,1;12;25/04/2023;Sain;Nantissement
+CR-2023-0026;Maradi;Commerce;Découvert;4200000;3530000;0;12,5;12;28/04/2023;Sain;Caution solidaire
+CR-2023-0027;Niamey Grand Marché;Commerce;Trésorerie;1675000;79000;0;10,1;6;05/05/2023;Sain;Caution solidaire
+CR-2023-0028;Maradi;Transport;Investissement;6875000;4947000;521000;8,7;84;06/05/2023;En retard;Hypothèque
+CR-2023-0029;Maradi;Services;Trésorerie;4075000;217000;0;11,8;6;09/05/2023;Sain;Nantissement
+CR-2023-0030;Niamey Plateau;Agriculture;Campagne agricole;1150000;53000;0;9,2;12;09/05/2023;Sain;Caution solidaire
+CR-2023-0031;Dosso;Commerce;Investissement;25575000;15794000;0;7,7;72;09/05/2023;Sain;Hypothèque
+CR-2023-0032;Niamey Grand Marché;Services;Investissement;3200000;2210000;0;7,8;84;14/05/2023;Sain;Hypothèque
+CR-2023-0033;Tahoua;BTP;Investissement;10700000;533000;0;8,1;24;14/05/2023;Sain;Hypothèque
+CR-2023-0034;Dosso;Commerce;Découvert;1400000;834000;0;12,6;12;18/05/2023;Sain;Caution solidaire
+CR-2023-0035;Maradi;Services;Investissement;575000;410000;0;8,2;84;19/05/2023;Sain;Hypothèque
+CR-2023-0036;Zinder;Commerce;Trésorerie;3850000;206000;0;11,2;18;20/05/2023;Sain;Dépôt à terme
+CR-2023-0037;Niamey Grand Marché;BTP;Découvert;11250000;6861000;353000;11,7;9;24/05/2023;En retard;Aucune
+CR-2023-0038;Dosso;Commerce;Découvert;3725000;3274000;0;14,8;6;27/05/2023;Sain;Caution solidaire
+CR-2023-0039;Agadez;Artisanat;Trésorerie;1850000;96000;0;11,4;18;30/05/2023;Sain;
+CR-2023-0040;Niamey Plateau;Commerce;Découvert;4150000;1703000;119000;13,9;6;15/06/2023;En retard;Caution solidaire
+CR-2023-0041;Agadez;Transport;Investissement;1425000;994000;0;8,0;84;24/06/2023;Sain;Caution solidaire
+CR-2023-0042;Zinder;Services;Trésorerie;2100000;105000;0;11,2;6;24/06/2023;Sain;Aucune
+CR-2023-0043;Niamey Plateau;Services;Trésorerie;6250000;290000;0;11,0;24;27/06/2023;Sain;Nantissement
+CR-2023-0044;Dosso;Transport;Trésorerie;10000000;486000;0;11,7;18;01/07/2023;Sain;Caution solidaire
+CR-2023-0045;Tahoua;Artisanat;Trésorerie;1425000;74000;0;12,2;24;03/07/2023;Sain;Aucune
+CR-2023-0046;Zinder;Transport;Trésorerie;5200000;266000;0;11,4;18;06/07/2023;Sain;Nantissement
+CR-2023-0047;Niamey Plateau;Transport;Découvert;1225000;966000;233000;13,4;6;06/07/2023;Douteux;Dépôt à terme
+CR-2023-0048;Maradi;Services;Trésorerie;3000000;147000;0;10,3;18;06/07/2023;Sain;Caution solidaire
+CR-2023-0049;Agadez;Transport;Trésorerie;7000000;335000;0;12,6;12;10/07/2023;Sain;Nantissement
+CR-2023-0050;Dosso;Commerce;Découvert;2225000;1994000;0;12,7;12;13/07/2023;Sain;Caution solidaire
+CR-2023-0051;Niamey Plateau;Transport;Investissement;7350000;4801000;0;8,0;60;15/07/2023;Sain;Hypothèque
+CR-2023-0052;Niamey Plateau;Commerce;Investissement;2500000;1592000;0;10,1;72;17/07/2023;Sain;Nantissement
+CR-2023-0053;Maradi;Commerce;Investissement;3800000;1250000;0;8,8;36;17/07/2023;Sain;Nantissement
+CR-2023-0054;Maradi;BTP;Découvert;8550000;2587000;0;12,6;12;17/07/2023;Sain;Caution solidaire
+CR-2023-0055;Maradi;Agriculture;Campagne agricole;675000;34000;1000;8,6;12;18/07/2023;En retard;Aucune
+CR-2023-0056;Dosso;Transport;Trésorerie;4725000;242000;0;10,4;24;27/07/2023;Sain;Dépôt à terme
+CR-2023-0057;Tahoua;Agriculture;Campagne agricole;725000;37000;1000;9,9;12;01/08/2023;En retard;Nantissement
+CR-2023-0058;Niamey Grand Marché;Services;Trésorerie;1675000;83000;0;11,0;24;03/08/2023;Sain;Dépôt à terme
+CR-2023-0059;Tahoua;Services;Investissement;1100000;410000;0;9,1;36;06/08/2023;Sain;Caution solidaire
+CR-2023-0060;Niamey Grand Marché;Transport;Investissement;4100000;3205000;362000;9,6;84;06/08/2023;En retard;Hypothèque
+CR-2023-0061;Zinder;Commerce;Trésorerie;3850000;188000;0;11,0;6;10/08/2023;Sain;Caution solidaire
+CR-2023-0062;Dosso;Commerce;Investissement;2775000;1101000;0;8,4;36;16/08/2023;Sain;Hypothèque
+CR-2023-0063;Niamey Plateau;Artisanat;Trésorerie;1225000;58000;0;11,7;18;28/08/2023;Sain;Nantissement
+CR-2023-0064;Tahoua;Transport;Investissement;4875000;3268000;0;9,8;72;02/09/2023;Sain;Nantissement
+CR-2023-0065;Maradi;BTP;Découvert;13050000;12353000;704000;13,1;12;07/09/2023;En retard;Dépôt à terme
+CR-2023-0066;Maradi;Services;Trésorerie;5100000;252000;0;11,2;12;08/09/2023;Sain;Caution solidaire
+CR-2023-0067;Maradi;Artisanat;Trésorerie;250000;12000;0;10,2;18;09/09/2023;Sain;Aucune
+CR-2023-0068;Tahoua;Commerce;Trésorerie;4500000;214000;0;10,6;6;21/09/2023;Sain;Dépôt à terme
+CR-2023-0069;Maradi;Services;Trésorerie;13775000;670000;0;10,1;6;03/10/2023;Sain;Nantissement
+CR-2023-0070;Niamey Plateau;Services;Investissement;4950000;3572000;0;8,9;72;05/10/2023;Sain;Hypothèque
+CR-2023-0071;Tahoua;Commerce;Investissement;2875000;2050000;0;10,1;84;09/10/2023;Sain;Hypothèque
+CR-2023-0072;Agadez;Commerce;Trésorerie;8225000;1103000;0;11,8;24;10/10/2023;Sain;Caution solidaire
+CR-2023-0073;Zinder;Artisanat;Investissement;900000;392000;37000;9,1;36;11/10/2023;En retard;Hypothèque
+CR-2023-0074;Niamey Plateau;Artisanat;Investissement;475000;334000;0;8,5;60;11/10/2023;Sain;Hypothèque
+CR-2023-0075;Niamey Plateau;Commerce;Investissement;1050000;159000;0;9,3;24;16/10/2023;Sain;Caution solidaire
+CR-2023-0076;Zinder;Transport;Investissement;4250000;640000;35000;9,4;24;17/10/2023;En retard;Nantissement
+CR-2023-0077;Niamey Grand Marché;Transport;Trésorerie;1725000;85000;2000;12,3;6;20/10/2023;En retard;Aucune
+CR-2023-0078;Agadez;Commerce;Trésorerie;2300000;111000;0;12,4;18;25/10/2023;Sain;Nantissement
+CR-2023-0079;Niamey Plateau;Commerce;Investissement;1675000;1211000;0;8,0;72;08/11/2023;Sain;Hypothèque
+CR-2023-0080;Niamey Grand Marché;Transport;Trésorerie;3800000;194000;0;10,6;12;09/11/2023;Sain;Caution solidaire
+CR-2023-0081;Niamey Plateau;BTP;Investissement;29475000;22214000;0;8,5;84;11/11/2023;Sain;Nantissement
+CR-2023-0082;Tahoua;Agriculture;Trésorerie;1750000;92000;0;10,7;12;12/11/2023;Sain;Aucune
+CR-2023-0083;Niamey Grand Marché;BTP;Investissement;2850000;2097000;0;9,4;84;13/11/2023;Sain;Hypothèque
+CR-2023-0084;Niamey Grand Marché;Agriculture;Campagne agricole;2125000;114000;0;10,7;9;17/11/2023;Sain;Nantissement
+CR-2023-0085;Maradi;Transport;Investissement;3725000;2487000;295000;7,8;60;24/11/2023;En retard;Hypothèque
+CR-2023-0086;Agadez;Commerce;Investissement;3075000;1923000;0;7,5;48;05/12/2023;Sain;Nantissement
+CR-2023-0087;Agadez;Artisanat;Trésorerie;325000;17000;0;10,4;18;08/12/2023;Sain;Dépôt à terme
+CR-2023-0088;Agadez;Agriculture;Campagne agricole;5250000;250000;0;9,2;9;08/12/2023;Sain;Caution solidaire
+CR-2023-0089;Maradi;Agriculture;Trésorerie;1200000;58000;0;11,1;12;08/12/2023;Sain;Nantissement
+CR-2023-0090;Agadez;Commerce;Découvert;3800000;2229000;0;13,2;9;09/12/2023;Sain;Caution solidaire
+CR-2023-0091;Agadez;Commerce;Trésorerie;2775000;578000;0;11,6;24;09/12/2023;Sain;Aucune
+CR-2023-0092;Zinder;Transport;Trésorerie;2200000;461000;0;11,8;24;11/12/2023;Sain;Nantissement
+CR-2023-0093;Niamey Grand Marché;Transport;Trésorerie;4275000;200000;0;10,6;6;13/12/2023;Sain;Aucune
+CR-2023-0094;Niamey Grand Marché;Agriculture;Campagne agricole;3425000;166000;0;8,5;12;14/12/2023;Sain;Caution solidaire
+CR-2023-0095;Zinder;Transport;Découvert;6500000;6032000;0;13,0;6;19/12/2023;Sain;Caution solidaire
+CR-2024-0001;Zinder;Artisanat;Investissement;600000;457000;31000;8,8;84;12/01/2024;En retard;Hypothèque
+CR-2024-0002;Niamey Grand Marché;BTP;Investissement;17825000;8634000;0;7,4;36;13/01/2024;Sain;Nantissement
+CR-2024-0003;Niamey Plateau;Services;Investissement;3575000;2904000;0;9,8;72;18/01/2024;Sain;Nantissement
+CR-2024-0004;Niamey Plateau;Commerce;Trésorerie;1500000;138000;0;11,7;18;19/02/2024;Sain;Nantissement
+CR-2024-0005;Niamey Grand Marché;Services;Découvert;9425000;2837000;0;13,2;6;20/02/2024;Sain;Dépôt à terme
+CR-2024-0006;Maradi;Commerce;Trésorerie;900000;45000;0;10,4;12;06/03/2024;Sain;Nantissement
+CR-2024-0007;Niamey Plateau;Transport;Trésorerie;6100000;866000;63000;11,5;18;13/03/2024;En retard;Caution solidaire
+CR-2024-0008;Niamey Plateau;Services;Trésorerie;1975000;687000;0;10,6;24;18/03/2024;Sain;Nantissement
+CR-2024-0009;Zinder;Agriculture;Campagne agricole;975000;52000;5000;9,2;9;21/03/2024;En retard;Caution solidaire
+CR-2024-0010;Niamey Plateau;BTP;Investissement;4325000;3038000;321000;8,7;48;23/03/2024;En retard;Nantissement
+CR-2024-0011;Niamey Grand Marché;BTP;Découvert;18425000;4000000;827000;12,3;6;26/03/2024;Douteux;Caution solidaire
+CR-2024-0012;Agadez;Agriculture;Trésorerie;325000;16000;0;11,4;12;29/03/2024;Sain;Dépôt à terme
+CR-2024-0013;Niamey Grand Marché;Services;Investissement;3425000;1370000;0;8,8;24;31/03/2024;Sain;Hypothèque
+CR-2024-0014;Niamey Plateau;Artisanat;Trésorerie;250000;46000;0;12,2;18;02/04/2024;Sain;Dépôt à terme
+CR-2024-0015;Niamey Grand Marché;Agriculture;Campagne agricole;525000;26000;0;8,9;6;05/04/2024;Sain;Caution solidaire
+CR-2024-0016;Niamey Plateau;Commerce;Découvert;2525000;1819000;0;13,0;12;06/04/2024;Sain;Aucune
+CR-2024-0017;Niamey Grand Marché;Commerce;Trésorerie;2175000;106000;0;10,9;12;11/04/2024;Sain;Aucune
+CR-2024-0018;Tahoua;Transport;Découvert;11075000;2796000;274000;13,5;6;13/04/2024;En retard;Caution solidaire
+CR-2024-0019;Maradi;Services;Investissement;2425000;2032000;0;10,1;72;13/04/2024;Sain;Nantissement
+CR-2024-0020;Niamey Grand Marché;Agriculture;Campagne agricole;2300000;122000;14000;9,6;12;14/04/2024;En retard;Caution solidaire
+CR-2024-0021;Niamey Grand Marché;Services;Trésorerie;3375000;176000;0;11,1;6;14/04/2024;Sain;Dépôt à terme
+CR-2024-0022;Zinder;Commerce;Trésorerie;1750000;731000;0;11,2;24;17/04/2024;Sain;Aucune
+CR-2024-0023;Dosso;Commerce;Découvert;3400000;2087000;0;13,5;12;18/04/2024;Sain;Aucune
+CR-2024-0024;Maradi;Artisanat;Découvert;1225000;253000;0;12,3;6;18/04/2024;Sain;Aucune
+CR-2024-0025;Niamey Plateau;Services;Trésorerie;7025000;2959000;0;11,0;24;18/04/2024;Sain;Nantissement
+CR-2024-0026;Maradi;Services;Investissement;13925000;11227000;0;8,9;84;20/04/2024;Sain;Nantissement
+CR-2024-0027;Maradi;Transport;Investissement;4200000;1631000;0;8,2;24;21/04/2024;Sain;Hypothèque
+CR-2024-0028;Agadez;BTP;Découvert;4225000;3419000;0;14,0;6;22/04/2024;Sain;Caution solidaire
+CR-2024-0029;Niamey Grand Marché;Commerce;Découvert;4300000;2130000;322000;12,7;12;28/04/2024;Douteux;Aucune
+CR-2024-0030;Zinder;Artisanat;Investissement;1750000;697000;0;8,3;24;04/05/2024;Sain;Hypothèque
+CR-2024-0031;Maradi;Transport;Découvert;12725000;6982000;0;12,9;9;08/05/2024;Sain;Dépôt à terme
+CR-2024-0032;Niamey Grand Marché;Commerce;Découvert;1550000;831000;89000;14,1;12;17/05/2024;En retard;Aucune
+CR-2024-0033;Niamey Plateau;Agriculture;Campagne agricole;1525000;71000;7000;11,4;12;22/05/2024;En retard;Nantissement
+CR-2024-0034;Tahoua;Services;Découvert;3225000;2490000;0;12,4;12;31/05/2024;Sain;Aucune
+CR-2024-0035;Niamey Plateau;Services;Trésorerie;5375000;277000;0;11,9;12;08/06/2024;Sain;Aucune
+CR-2024-0036;Niamey Plateau;Commerce;Trésorerie;725000;218000;0;10,2;18;08/06/2024;Sain;Nantissement
+CR-2024-0037;Zinder;BTP;Trésorerie;5550000;1565000;0;11,3;18;10/06/2024;Sain;Nantissement
+CR-2024-0038;Dosso;Commerce;Investissement;2625000;2015000;0;8,0;48;13/06/2024;Sain;Nantissement
+CR-2024-0039;Niamey Plateau;Commerce;Trésorerie;1875000;90000;0;10,6;6;15/06/2024;Sain;
+CR-2024-0040;Tahoua;BTP;Découvert;11850000;5928000;461000;13,0;12;16/06/2024;En retard;Aucune
+CR-2024-0041;Zinder;Agriculture;Campagne agricole;3500000;177000;0;10,0;9;23/06/2024;Sain;Caution solidaire
+CR-2024-0042;Niamey Plateau;Commerce;Investissement;1225000;1029000;0;7,4;84;27/06/2024;Sain;Hypothèque
+CR-2024-0043;Niamey Grand Marché;Commerce;Investissement;925000;699000;0;8,8;48;01/07/2024;Sain;Caution solidaire
+CR-2024-0044;Zinder;Agriculture;Campagne agricole;675000;35000;16000;8,9;6;08/07/2024;Douteux;Caution solidaire
+CR-2024-0045;Niamey Plateau;Commerce;Trésorerie;2875000;132000;0;9,8;12;13/07/2024;Sain;Nantissement
+CR-2024-0046;Maradi;BTP;Investissement;12575000;6074000;0;9,1;24;14/07/2024;Sain;Hypothèque
+CR-2024-0047;Niamey Plateau;Transport;Découvert;8750000;7989000;901000;13,6;9;14/07/2024;En retard;Caution solidaire
+CR-2024-0048;Zinder;Commerce;Trésorerie;3375000;1676000;181000;11,5;24;17/07/2024;En retard;Caution solidaire
+CR-2024-0049;Maradi;Services;Trésorerie;4775000;296000;0;11,7;12;21/07/2024;Sain;Aucune
+CR-2024-0050;Niamey Plateau;Commerce;Découvert;4925000;3016000;137000;11,9;9;26/07/2024;En retard;Aucune
+CR-2024-0051;Zinder;Transport;Découvert;9025000;7760000;0;14,8;9;27/07/2024;Sain;Dépôt à terme
+CR-2024-0052;Agadez;Commerce;Investissement;4050000;2146000;0;7,6;24;27/07/2024;Sain;Nantissement
+CR-2024-0053;Zinder;Transport;Trésorerie;3800000;313000;9000;11,7;12;28/07/2024;En retard;Caution solidaire
+CR-2024-0054;Maradi;Services;Trésorerie;3000000;1595000;0;11,0;24;29/07/2024;Sain;Caution solidaire
+CR-2024-0055;Niamey Grand Marché;Artisanat;Découvert;300000;292000;0;12,2;9;31/07/2024;Sain;Caution solidaire
+CR-2024-0056;Niamey Grand Marché;BTP;Découvert;41400000;33467000;0;13,9;12;08/08/2024;Sain;Dépôt à terme
+CR-2024-0057;Dosso;Artisanat;Trésorerie;800000;316000;0;12,0;18;19/08/2024;Sain;Caution solidaire
+CR-2024-0058;Niamey Plateau;Artisanat;Investissement;1525000;895000;0;8,9;24;23/08/2024;Sain;Nantissement
+CR-2024-0059;Maradi;Commerce;Découvert;1750000;1385000;0;12,5;12;28/08/2024;Sain;Dépôt à terme
+CR-2024-0060;Zinder;Agriculture;Campagne agricole;1650000;77000;3000;10,6;9;29/08/2024;En retard;Caution solidaire
+CR-2024-0061;Agadez;Transport;Investissement;8675000;5272000;0;7,2;24;01/09/2024;Sain;Caution solidaire
+CR-2024-0062;Niamey Plateau;Agriculture;Trésorerie;600000;258000;9000;10,9;18;05/09/2024;En retard;Aucune
+CR-2024-0063;Maradi;Commerce;Trésorerie;9750000;4636000;0;11,2;18;23/09/2024;Sain;Dépôt à terme
+CR-2024-0064;Dosso;Agriculture;Campagne agricole;525000;25000;1000;8,8;9;29/09/2024;En retard;Nantissement
+CR-2024-0065;Zinder;BTP;Investissement;16075000;14648000;6717000;8,1;60;29/09/2024;Douteux;Nantissement
+CR-2024-0066;Niamey Plateau;Agriculture;Campagne agricole;575000;141000;9000;9,1;12;02/10/2024;En retard;Caution solidaire
+CR-2024-0067;Dosso;Transport;Découvert;3125000;1299000;0;11,6;12;03/10/2024;Sain;Caution solidaire
+CR-2024-0068;Maradi;Services;Investissement;18975000;17377000;0;8,9;84;08/10/2024;Sain;Caution solidaire
+CR-2024-0069;Niamey Plateau;Commerce;Investissement;3375000;2827000;0;7,7;48;08/10/2024;Sain;Caution solidaire
+CR-2024-0070;Zinder;Commerce;Trésorerie;1475000;812000;0;10,2;18;12/10/2024;Sain;Caution solidaire
+CR-2024-0071;Agadez;Commerce;Découvert;3100000;2793000;171000;13,2;12;28/10/2024;En retard;Dépôt à terme
+CR-2024-0072;Agadez;Artisanat;Trésorerie;2900000;149000;0;11,5;6;03/11/2024;Sain;Caution solidaire
+CR-2024-0073;Niamey Plateau;Artisanat;Trésorerie;300000;115000;0;10,8;12;13/11/2024;Sain;Nantissement
+CR-2024-0074;Maradi;Services;Découvert;1775000;1303000;0;14,0;9;26/11/2024;Sain;Caution solidaire
+CR-2024-0075;Zinder;Commerce;Trésorerie;5625000;2299000;0;10,6;12;26/11/2024;Sain;Caution solidaire
+CR-2024-0076;Niamey Grand Marché;Services;Trésorerie;4675000;226000;0;10,7;6;01/12/2024;Sain;Caution solidaire
+CR-2024-0077;Niamey Grand Marché;BTP;Investissement;14450000;13595000;3330000;7,7;72;06/12/2024;Douteux;Nantissement
+CR-2024-0078;Agadez;Agriculture;Campagne agricole;475000;23000;0;9,2;6;07/12/2024;Sain;Caution solidaire
+CR-2024-0079;Niamey Grand Marché;BTP;Trésorerie;4725000;2991000;1210000;11,8;18;12/12/2024;Douteux;
+CR-2024-0080;Maradi;Transport;Investissement;2050000;1701000;0;8,5;48;13/12/2024;Sain;Nantissement
+CR-2024-0081;Niamey Plateau;Agriculture;Trésorerie;600000;280000;7000;11,5;12;14/12/2024;En retard;Nantissement
+CR-2024-0082;Maradi;BTP;Investissement;54225000;42652000;0;8,5;36;22/12/2024;Sain;Nantissement
+CR-2024-0083;Maradi;Services;Découvert;3675000;2045000;0;13,3;9;22/12/2024;Sain;Caution solidaire
+CR-2024-0084;Niamey Grand Marché;Agriculture;Trésorerie;2525000;1702000;0;11,4;18;27/12/2024;Sain;Nantissement
+CR-2025-0001;Tahoua;Commerce;Trésorerie;4225000;201000;0;10,9;6;01/01/2025;Sain;Dépôt à terme
+CR-2025-0002;Agadez;Transport;Trésorerie;7425000;5384000;1682000;10,8;18;02/01/2025;Douteux;Nantissement
+CR-2025-0003;Maradi;Agriculture;Campagne agricole;2900000;954000;113000;8,5;9;02/01/2025;En retard;Nantissement
+CR-2025-0004;Niamey Grand Marché;Commerce;Découvert;1250000;288000;0;14,4;9;03/01/2025;Sain;Dépôt à terme
+CR-2025-0005;Maradi;Commerce;Trésorerie;7200000;3738000;0;10,0;12;05/01/2025;Sain;Nantissement
+CR-2025-0006;Niamey Plateau;Artisanat;Trésorerie;2125000;1165000;0;10,8;12;09/01/2025;Sain;Nantissement
+CR-2025-0007;Maradi;Agriculture;Campagne agricole;1125000;125000;12000;;6;20/01/2025;En retard;Aucune
+CR-2025-0008;Maradi;Agriculture;Campagne agricole;600000;236000;45000;9,4;9;21/01/2025;Douteux;Caution solidaire
+CR-2025-0009;Maradi;BTP;Trésorerie;14375000;2121000;0;11,2;6;24/01/2025;Sain;Nantissement
+CR-2025-0010;Agadez;Transport;Découvert;25825000;20758000;7287000;13,4;12;29/01/2025;Douteux;Aucune
+CR-2025-0011;Maradi;Services;Investissement;3900000;2991000;0;9,9;24;05/02/2025;Sain;Nantissement
+CR-2025-0012;Zinder;Commerce;Investissement;18600000;15890000;0;9,4;36;16/02/2025;Sain;Hypothèque
+CR-2025-0013;Zinder;Services;Trésorerie;5400000;3976000;0;11,4;18;23/02/2025;Sain;Aucune
+CR-2025-0014;Niamey Grand Marché;Artisanat;Trésorerie;1300000;428000;18000;10,5;6;26/02/2025;En retard;Nantissement
+CR-2025-0015;Niamey Plateau;Artisanat;Trésorerie;550000;487000;0;10,9;24;28/02/2025;Sain;Caution solidaire
+CR-2025-0016;Zinder;Services;Trésorerie;2950000;2530000;0;11,3;24;08/03/2025;Sain;Caution solidaire
+CR-2025-0017;Dosso;BTP;Investissement;20400000;17294000;0;9,0;24;12/03/2025;Sain;
+CR-2025-0018;Niamey Grand Marché;Agriculture;Campagne agricole;2800000;2165000;501000;9,4;12;21/03/2025;Douteux;Nantissement
+CR-2025-0019;Niamey Plateau;Agriculture;Campagne agricole;1525000;676000;380000;9,5;6;21/03/2025;Douteux;Caution solidaire
+CR-2025-0020;Zinder;Services;Investissement;1975000;1776000;0;8,0;84;10/04/2025;Sain;Hypothèque
+CR-2025-0021;Maradi;Services;Trésorerie;2900000;1693000;0;11,3;6;12/04/2025;Sain;Nantissement
+CR-2025-0022;Niamey Plateau;Commerce;Trésorerie;1950000;1793000;0;9,8;18;12/04/2025;Sain;Nantissement
+CR-2025-0023;Niamey Plateau;Artisanat;Investissement;1000000;969000;0;9,8;60;20/04/2025;Sain;Nantissement
+CR-2025-0024;Zinder;Services;Investissement;3525000;3424000;0;7,0;84;25/04/2025;Sain;Hypothèque
+CR-2025-0025;Niamey Plateau;Artisanat;Découvert;925000;671000;0;13,4;6;07/05/2025;Sain;Aucune
+CR-2025-0026;Niamey Grand Marché;Commerce;Découvert;1950000;1867000;0;13,0;12;11/05/2025;Sain;Caution solidaire
+CR-2025-0027;Zinder;Agriculture;Campagne agricole;500000;433000;38000;9,3;9;29/05/2025;En retard;Aucune
+CR-2025-0028;Zinder;Services;Trésorerie;2825000;2716000;0;10,4;12;01/06/2025;Sain;Nantissement
+CR-2025-0029;Niamey Grand Marché;Transport;Trésorerie;5300000;5300000;0;12,1;24;04/06/2025;Sain;Caution solidaire
+CR-2025-0030;Niamey Plateau;BTP;Investissement;20500000;20179000;0;8,5;48;05/06/2025;Sain;Hypothèque
+CR-2025-0031;Agadez;Artisanat;Investissement;1250000;1160000;638000;9,1;84;06/06/2025;Douteux;Nantissement
+CR-2025-0032;Dosso;Artisanat;Trésorerie;1925000;1739000;0;11,0;12;08/06/2025;Sain;Caution solidaire
+CR-2025-0033;Zinder;Agriculture;Campagne agricole;1325000;1258000;0;10,3;12;13/06/2025;Sain;Caution solidaire
+CR-2025-0034;Maradi;Transport;Investissement;3875000;3721000;0;;72;19/06/2025;Sain;Hypothèque
+CR-2025-0035;Zinder;Artisanat;Investissement;1125000;1094000;0;8,3;48;21/06/2025;Sain;Hypothèque
+CR-2025-0036;Tahoua;Agriculture;Investissement;575000;538000;0;8,1;84;23/06/2025;Sain;Hypothèque
+CR-2025-0037;Zinder;Transport;Trésorerie;4700000;4700000;270000;11,7;12;23/06/2025;En retard;Nantissement
