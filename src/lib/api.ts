@@ -240,6 +240,8 @@ export interface ReportPayload {
     accent_color: string;
     /** Devise du rapport : "XOF" (FCFA) par défaut, "none" pour aucune. */
     currency: string;
+    /** Logo de l'établissement (data URI PNG/JPEG), affiché en page de garde. */
+    logo_data_uri: string;
   };
   context: {
     file_name: string;

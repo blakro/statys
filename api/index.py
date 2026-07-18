@@ -179,6 +179,8 @@ class ReportBranding(BaseModel):
     accent_color: str = ""
     # Devise du rapport : XOF (FCFA) par défaut, « none » pour aucune.
     currency: str = "XOF"
+    # Logo de l'établissement (data URI PNG/JPEG), affiché en page de garde.
+    logo_data_uri: str = ""
 
 
 class ReportContext(BaseModel):

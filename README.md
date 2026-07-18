@@ -136,6 +136,9 @@ Le formulaire d'export (onglet Rapport) propose des options adaptées aux
   `format_currency()` dans `api/_report.py`.
 - **Lieu** : réutilisé dans le bloc de signature « Fait à …, le … » et sur la
   page de garde.
+- **Logo de l'établissement** : PNG/JPEG (500 Ko max), affiché en page de
+  garde dans une pastille blanche (lisible quel que soit le logo) ; transmis
+  en data URI et validé côté serveur comme les images de graphiques.
 - **Confidentialité** : mention du secret bancaire UEMOA/BCEAO, en plus de la
   mention « usage interne », et bloc de signature/visa en fin de rapport.
 - **Jeu de démonstration** : l'onglet Données propose « Essayer avec le jeu

@@ -42,6 +42,8 @@ export default function RapportPage() {
   const [accentColor, setAccentColor] = useState("#416cae");
   const [currency, setCurrency] = useState("XOF");
   const [location, setLocation] = useState("");
+  const [logoDataUri, setLogoDataUri] = useState("");
+  const [logoError, setLogoError] = useState<string | null>(null);
   const [execNote, setExecNote] = useState("");
   const [phase, setPhase] = useState<Phase>({ step: "idle" });
 
@@ -64,6 +66,24 @@ export default function RapportPage() {
         </Link>
       </div>
     );
+  }
+
+  /** Lit le logo en data URI (PNG/JPEG, 500 Ko max — il part dans le payload JSON). */
+  function handleLogoFile(file: File | undefined) {
+    setLogoError(null);
+    if (!file) return;
+    if (!["image/png", "image/jpeg"].includes(file.type)) {
+      setLogoError("Format non géré : utilisez un PNG ou un JPEG.");
+      return;
+    }
+    if (file.size > 500_000) {
+      setLogoError("Logo trop volumineux (500 Ko max).");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setLogoDataUri(String(reader.result));
+    reader.onerror = () => setLogoError("Lecture du fichier impossible.");
+    reader.readAsDataURL(file);
   }
 
   function toggle(id: string) {
@@ -136,6 +156,7 @@ export default function RapportPage() {
         author: author.trim(),
         accent_color: accentColor,
         currency,
+        logo_data_uri: logoDataUri,
       },
       context: {
         file_name: d.fileName,
@@ -250,6 +271,44 @@ export default function RapportPage() {
                 placeholder={identity.orgName || "Banque de Démonstration"}
               />
             </label>
+            <div>
+              <span className="mb-1 block text-sm font-medium text-slate-700">
+                Logo (page de garde, optionnel)
+              </span>
+              {logoDataUri ? (
+                <div className="flex items-center gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- data URI local, pas d'optimisation next/image possible */}
+                  <img
+                    src={logoDataUri}
+                    alt="Aperçu du logo"
+                    className="h-10 max-w-32 rounded border border-slate-200 bg-white object-contain p-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setLogoDataUri("")}
+                    className="text-xs text-slate-500 hover:text-red-600"
+                  >
+                    Retirer
+                  </button>
+                </div>
+              ) : (
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg"
+                  onChange={(e) => {
+                    handleLogoFile(e.target.files?.[0]);
+                    e.target.value = "";
+                  }}
+                  className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border file:border-slate-300 file:bg-white file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-50"
+                  aria-label="Logo de l'établissement (PNG ou JPEG, 500 Ko max)"
+                />
+              )}
+              {logoError && (
+                <p role="alert" className="mt-1 text-xs text-red-600">
+                  {logoError}
+                </p>
+              )}
+            </div>
             <label className="block">
               <span className="mb-1 block text-sm font-medium text-slate-700">Titre du rapport</span>
               <input

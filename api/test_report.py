@@ -162,6 +162,22 @@ class TestGabaritOuestAfricain:
         assert "euro (EUR)" in html
         assert "franc CFA (XOF)" not in html
 
+    def test_logo_en_page_de_garde(self):
+        payload = sample_payload()
+        payload["branding"]["logo_data_uri"] = TINY_PNG
+        html = build_report_html(payload)
+        assert f'<img src="{TINY_PNG}" alt="Logo' in html
+
+    def test_logo_absent_pas_de_pastille(self):
+        html = build_report_html(sample_payload())
+        assert 'alt="Logo' not in html
+
+    def test_logo_invalide_rejete(self):
+        payload = sample_payload()
+        payload["branding"]["logo_data_uri"] = "https://exemple.fr/logo.png"
+        with pytest.raises(ValueError):
+            build_report_html(payload)
+
 
 class TestRenderPdf:
     def test_pdf_valide(self):
