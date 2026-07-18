@@ -39,6 +39,38 @@ MONTHS_FR = [
     "juillet", "août", "septembre", "octobre", "novembre", "décembre",
 ]
 
+#: Devises proposées à l'export. Le franc CFA (XOF) est le défaut : c'est la
+#: monnaie de l'UEMOA (Niger, Sénégal, Côte d'Ivoire…). Le formatage suit la
+#: convention ouest-africaine, identique au français (espace comme séparateur
+#: de milliers, virgule décimale) ; le FCFA s'écrit par usage sans décimales.
+CURRENCIES: dict[str, dict[str, object]] = {
+    "XOF": {"label": "FCFA", "name": "franc CFA (XOF)", "decimals": 0},
+    "EUR": {"label": "€", "name": "euro (EUR)", "decimals": 2},
+    "USD": {"label": "$", "name": "dollar US (USD)", "decimals": 2},
+}
+
+#: Espace insécable fine — sépare les milliers sans risque de coupure de ligne.
+_NBSP = " "
+
+
+def format_currency(value: float | int, code: str = "XOF") -> str:
+    """Formate un montant selon la convention ouest-africaine : « 1 234 567 FCFA ».
+
+    Séparateur de milliers = espace insécable, virgule décimale, suffixe de
+    devise. Un code inconnu retombe sur un formatage sans suffixe.
+    """
+    spec = CURRENCIES.get(code)
+    decimals = int(spec["decimals"]) if spec else 0
+    # Formatage à l'anglaise puis substitution vers la convention FR pour éviter
+    # toute dépendance à la locale système (indisponible en serverless).
+    formatted = f"{value:,.{decimals}f}"  # 1,234,567.89
+    formatted = (
+        formatted.replace(",", "\x00").replace(".", ",").replace("\x00", _NBSP)
+    )
+    if spec:
+        return f"{formatted}{_NBSP}{spec['label']}"
+    return formatted
+
 #: Blocs de méthodologie, inclus selon les types d'analyses présents.
 METHODOLOGY: dict[str, dict[str, str]] = {
     "univariate-numeric": {
@@ -169,6 +201,12 @@ TEMPLATE = """<!DOCTYPE html>
 
   .methodology, .annexes { page-break-before: always; }
   .methodology h3 { margin-top: 6mm; }
+
+  /* ---- Bloc de signature / visa ---- */
+  .signature { margin-top: 14mm; page-break-inside: avoid; }
+  .signature .place-date { font-size: 9.5pt; margin-bottom: 12mm; }
+  .signature .visa { width: 70mm; margin-left: auto; text-align: center; }
+  .signature .visa .line { border-top: 0.5pt solid #94a3b8; padding-top: 1.5mm; font-size: 8.5pt; color: #64748b; }
 </style>
 </head>
 <body>
@@ -180,9 +218,10 @@ TEMPLATE = """<!DOCTYPE html>
   <div class="subtitle">Rapport d'analyse statistique</div>
   <div class="meta">
     {% if branding.author %}<div>Préparé par : {{ branding.author }}</div>{% endif %}
-    <div>Date : {{ generated_date }}</div>
+    <div>{% if context.location %}{{ context.location }}, le {% endif %}{{ generated_date }}</div>
     <div>Source : {{ context.file_name }} — {{ context.row_count }} lignes, {{ context.column_count }} colonnes</div>
-    <div class="confidential">Document confidentiel — usage interne</div>
+    {% if currency %}<div>Devise : {{ currency.label }} — {{ currency.name }}</div>{% endif %}
+    <div class="confidential">Document confidentiel — secret bancaire (UEMOA / BCEAO)</div>
   </div>
 </div>
 
@@ -270,13 +309,24 @@ TEMPLATE = """<!DOCTYPE html>
       <tr><td>Lignes</td><td class="num">{{ context.row_count }}</td></tr>
       <tr><td>Colonnes</td><td class="num">{{ context.column_count }}</td></tr>
       {% if context.import_options %}<tr><td>Options d'import</td><td class="num">{{ context.import_options }}</td></tr>{% endif %}
+      {% if currency %}<tr><td>Devise</td><td class="num">{{ currency.label }} — {{ currency.name }}</td></tr>{% endif %}
       <tr><td>Moteur statistique</td><td class="num">Python {{ versions.python }} — scipy {{ versions.scipy }}</td></tr>
-      <tr><td>Généré le</td><td class="num">{{ generated_date }}</td></tr>
+      <tr><td>Généré le</td><td class="num">{% if context.location %}{{ context.location }}, {% endif %}{{ generated_date }}</td></tr>
       {% if context.exported_by %}<tr><td>Exporté par</td><td class="num">{{ context.exported_by }}{% if context.organization %} ({{ context.organization }}){% endif %}</td></tr>{% endif %}
     </tbody>
   </table>
   <p class="muted">Reproductibilité : les résultats dépendent uniquement du fichier source et des
   options d'import listées ci-dessus. Aucune donnée individuelle n'est conservée avec ce rapport.</p>
+  <p class="muted">Confidentialité : ce document et les analyses qu'il contient sont couverts par le
+  secret bancaire au sens de la réglementation de l'UEMOA (BCEAO). Sa diffusion est limitée aux
+  personnes habilitées de l'établissement.</p>
+
+  <div class="signature">
+    <div class="place-date">Fait à {{ context.location or "…………………" }}, le {{ generated_date }}.</div>
+    <div class="visa">
+      <div class="line">Signature et visa{% if branding.author %} — {{ branding.author }}{% endif %}</div>
+    </div>
+  </div>
 </div>
 
 </body>
@@ -324,6 +374,12 @@ def build_report_html(payload: dict) -> str:
     generated_date = f"{now.day} {MONTHS_FR[now.month - 1]} {now.year}"
 
     branding = payload.get("branding") or {}
+    # Devise : défaut FCFA (contexte UEMOA). « none » = choix explicite d'aucune
+    # devise ; un code absent retombe sur XOF (rétrocompatibilité).
+    currency_code = branding.get("currency")
+    if currency_code is None:
+        currency_code = "XOF"
+    currency = None if currency_code == "none" else CURRENCIES.get(currency_code)
     branding = {
         "bank_name": branding.get("bank_name") or "Établissement",
         "report_title": branding.get("report_title") or "Analyse statistique",
@@ -332,9 +388,11 @@ def build_report_html(payload: dict) -> str:
     }
 
     env = Environment(loader=BaseLoader(), autoescape=select_autoescape(["html"]))
+    env.filters["currency"] = format_currency
     template = env.from_string(TEMPLATE)
     return template.render(
         branding=branding,
+        currency=currency,
         context=payload.get("context") or {},
         sections=sections,
         methodology=methodology,

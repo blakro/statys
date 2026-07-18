@@ -11,6 +11,14 @@ import { useIdentity } from "@/components/RoleProvider";
 
 const numberFr = new Intl.NumberFormat("fr-FR");
 
+/** Devises proposées à l'export (défaut FCFA — contexte UEMOA). */
+const CURRENCY_OPTIONS: { value: string; label: string }[] = [
+  { value: "XOF", label: "FCFA (franc CFA — XOF)" },
+  { value: "EUR", label: "Euro (€)" },
+  { value: "USD", label: "Dollar US ($)" },
+  { value: "none", label: "Aucune" },
+];
+
 /** Au-delà, on regénère les images en qualité réduite (limite de corps Vercel). */
 const MAX_PAYLOAD_BYTES = 3_500_000;
 
@@ -32,6 +40,8 @@ export default function RapportPage() {
   const [reportTitle, setReportTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [accentColor, setAccentColor] = useState("#416cae");
+  const [currency, setCurrency] = useState("XOF");
+  const [location, setLocation] = useState("");
   const [execNote, setExecNote] = useState("");
   const [phase, setPhase] = useState<Phase>({ step: "idle" });
 
@@ -125,11 +135,13 @@ export default function RapportPage() {
         report_title: reportTitle.trim() || "Analyse statistique",
         author: author.trim(),
         accent_color: accentColor,
+        currency,
       },
       context: {
         file_name: d.fileName,
         row_count: d.rows.length,
         column_count: d.columns.length,
+        location: location.trim(),
         import_options: [
           d.resolvedOptions.delimiter ? `délimiteur « ${d.resolvedOptions.delimiter} »` : null,
           d.resolvedOptions.encoding,
@@ -266,6 +278,32 @@ export default function RapportPage() {
                   className="h-11 w-16 cursor-pointer rounded-lg border border-slate-300"
                   aria-label="Couleur d'accent du rapport"
                 />
+              </label>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <label className="block">
+                <span className="mb-1 block text-sm font-medium text-slate-700">Lieu</span>
+                <input
+                  className="input"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Niamey"
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-sm font-medium text-slate-700">Devise</span>
+                <select
+                  className="input"
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  aria-label="Devise du rapport"
+                >
+                  {CURRENCY_OPTIONS.map((c) => (
+                    <option key={c.value} value={c.value}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
               </label>
             </div>
             <label className="block">

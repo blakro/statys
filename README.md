@@ -124,6 +124,21 @@ L'import gère automatiquement (avec correction manuelle possible) :
   avec conversion manuelle — ex. un code 0/1 détecté « numérique » peut être
   forcé en « catégorielle ».
 
+## Rapport adapté au contexte bancaire ouest-africain (UEMOA)
+
+Le formulaire d'export (onglet Rapport) propose des options adaptées aux
+établissements de la zone UEMOA (Niger, Sénégal, Côte d'Ivoire…) :
+
+- **Devise** : FCFA (franc CFA — XOF) par défaut, avec euro, dollar US ou
+  « Aucune » ; la devise figure sur la page de garde et dans l'annexe. Le
+  formatage des montants suit la convention ouest-africaine (espace insécable
+  comme séparateur de milliers, virgule décimale, FCFA sans décimales) via
+  `format_currency()` dans `api/_report.py`.
+- **Lieu** : réutilisé dans le bloc de signature « Fait à …, le … » et sur la
+  page de garde.
+- **Confidentialité** : mention du secret bancaire UEMOA/BCEAO, en plus de la
+  mention « usage interne », et bloc de signature/visa en fin de rapport.
+
 ## Plan de construction
 
 1. ✅ **Phase 1** — Socle Next.js + FastAPI, auth basique, onglet Données
