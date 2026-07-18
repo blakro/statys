@@ -161,6 +161,10 @@ TEMPLATE = """<!DOCTYPE html>
   .cover { page: cover; height: 297mm; background: #0f1c2e; color: #fff; padding: 30mm 24mm; position: relative; }
   .cover .band { position: absolute; top: 0; left: 0; width: 8mm; height: 297mm; background: {{ branding.accent_color }}; }
   .cover .brand { font-size: 11pt; letter-spacing: 0.15em; text-transform: uppercase; color: #94b0d8; }
+  /* Logo de l'établissement : pastille blanche pour rester lisible quel que
+     soit le logo (souvent sombre sur fond transparent). */
+  .cover .logo { display: inline-block; background: #fff; border-radius: 2mm; padding: 3mm 4mm; margin-bottom: 8mm; }
+  .cover .logo img { max-height: 14mm; max-width: 55mm; display: block; }
   .cover h1 { font-size: 26pt; line-height: 1.25; margin: 60mm 0 6mm 0; font-weight: 700; }
   .cover .subtitle { font-size: 12pt; color: #bfcfe8; }
   .cover .meta { position: absolute; bottom: 30mm; left: 24mm; right: 24mm; border-top: 0.5pt solid #416cae; padding-top: 6mm; font-size: 9.5pt; color: #dce5f3; }
@@ -213,6 +217,7 @@ TEMPLATE = """<!DOCTYPE html>
 
 <div class="cover">
   <div class="band"></div>
+  {% if branding.logo_data_uri %}<div class="logo"><img src="{{ branding.logo_data_uri }}" alt="Logo de l'établissement"></div>{% endif %}
   <div class="brand">{{ branding.bank_name }}</div>
   <h1>{{ branding.report_title }}</h1>
   <div class="subtitle">Rapport d'analyse statistique</div>
@@ -380,11 +385,15 @@ def build_report_html(payload: dict) -> str:
     if currency_code is None:
         currency_code = "XOF"
     currency = None if currency_code == "none" else CURRENCIES.get(currency_code)
+    logo_data_uri = branding.get("logo_data_uri") or ""
+    if logo_data_uri:
+        _validate_image(logo_data_uri)
     branding = {
         "bank_name": branding.get("bank_name") or "Établissement",
         "report_title": branding.get("report_title") or "Analyse statistique",
         "author": branding.get("author") or "",
         "accent_color": _safe_color(branding.get("accent_color")),
+        "logo_data_uri": logo_data_uri,
     }
 
     env = Environment(loader=BaseLoader(), autoescape=select_autoescape(["html"]))
