@@ -88,6 +88,19 @@ class TestBuildHtml:
         html = build_report_html(sample_payload())
         assert "#b45309" in html
 
+    def test_pied_de_page_apostrophe_non_echappee(self):
+        # Le pied de page @page vit dans un bloc <style> : l'autoescape HTML y
+        # est inadapté (« l'analyse » deviendrait « l&#39;analyse » dans le PDF).
+        payload = sample_payload()
+        payload["branding"]["bank_name"] = "Banque de l'Habitat"
+        html = build_report_html(payload)
+        assert 'content: "Banque de l\'Habitat — Portefeuille crédit T2 2026"' in html
+        assert "l&#39;Habitat" not in html.split("</style>")[0]
+        # Mais les caractères qui casseraient la chaîne CSS sont retirés.
+        payload["branding"]["bank_name"] = 'Banque "X" </style><script>'
+        html = build_report_html(payload)
+        assert "</style><script>" not in html.split("</style>")[0]
+
     def test_echappement_html(self):
         payload = sample_payload()
         payload["branding"]["bank_name"] = "<script>alert(1)</script>"
